@@ -1,34 +1,39 @@
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { SessionProvider, useSession } from "next-auth/react";
-import { queryClient } from "../src/fetcher";
 import Head from "next/head";
+import { queryClient } from "../src/fetcher/queryClient";
+import { AppProps } from "next/app";
+import { PropsWithChildren } from "react";
+import useMeQuery from "../src/hooks/useMeQuery";
+import LoginForm from "../src/components/LoginForm";
+import { CssBaseline } from "@mui/material";
+import Header from "../src/components/Header";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <SessionProvider session={pageProps.session}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
         <Auth>
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
+          <Header />
+          <Component {...pageProps} />
         </Auth>
-      </SessionProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }
 
-function Auth({ children }) {
-  const { status } = useSession({ required: true });
+function Auth({ children }: PropsWithChildren<{}>) {
+  const { me } = useMeQuery();
 
-  if (status === "authenticated") {
-    return children;
+  if (me.status !== "success") {
+    return <LoginForm />;
   }
 
-  return null;
+  return <>{children}</>;
 }
 export default MyApp;
