@@ -1,3 +1,5 @@
+import { categories } from './contents/categories';
+import { categoryById } from './contents/categoryById';
 import { videoById } from './contents/videoById';
 import { videos } from './contents/videos';
 import { accounts } from './users/accounts';
@@ -15,6 +17,8 @@ const fetcher = {
   getAccounts: accounts,
   getVideos: videos,
   getVideoById: videoById,
+  getCategoryById: categoryById,
+  getCategories: categories,
 };
 
 export default fetcher;

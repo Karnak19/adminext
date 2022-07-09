@@ -2,20 +2,19 @@ import React, { useMemo, useState } from 'react';
 import { Avatar, Stack, Table, TextInput } from '@mantine/core';
 import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
-import { Video } from 'tabler-icons-react';
+import { Category } from 'tabler-icons-react';
 
-import { Video as TVideo } from '../fetcher/contents/videos';
-import useVideosQuery from '../hooks/useVideosQuery';
+import useCategoriesQuery from '../hooks/useCategoriesQuery';
 
-function VideosList({ videos }: { videos: TVideo[] }) {
+function CategoriesList() {
   const router = useRouter();
-  const { data } = useVideosQuery(!videos);
+  const { data } = useCategoriesQuery();
 
   const [search, setSearch] = useState('');
 
   const fuse = useMemo(
     () =>
-      new Fuse(videos || data, {
+      new Fuse(data || [], {
         keys: ['name'],
         minMatchCharLength: 2,
       }),
@@ -29,26 +28,26 @@ function VideosList({ videos }: { videos: TVideo[] }) {
           cursor: 'pointer',
         }}
         key={item.id}
-        onClick={() => router.push(`/videos/${item.id}`)}
+        onClick={() => router.push(`/categories/${item.id}`)}
       >
         <td>
-          <Avatar src={`${item.poster}?auto=format&h=120&w=120`} />
+          <Avatar src={`${item.thumbnail}?auto=format&h=120&w=120`} />
         </td>
         <td>{item.name}</td>
       </tr>
     );
   });
 
-  const results = (videos || data)?.map((video) => (
+  const results = data?.map((video) => (
     <tr
       style={{
         cursor: 'pointer',
       }}
       key={video.id}
-      onClick={() => router.push(`/videos/${video.id}`)}
+      onClick={() => router.push(`/categories/${video.id}`)}
     >
       <td>
-        <Avatar src={`${video.poster}?auto=format&h=120&w=120`} />
+        <Avatar src={`${video.thumbnail}?auto=format&h=120&w=120`} />
       </td>
       <td>{video.name}</td>
     </tr>
@@ -61,8 +60,8 @@ function VideosList({ videos }: { videos: TVideo[] }) {
           label="Search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Filter videos"
-          icon={<Video />}
+          placeholder="Filter Categories"
+          icon={<Category />}
         />
       </div>
       <Table striped highlightOnHover>
@@ -78,4 +77,4 @@ function VideosList({ videos }: { videos: TVideo[] }) {
   );
 }
 
-export default VideosList;
+export default CategoriesList;
