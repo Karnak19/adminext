@@ -1,4 +1,5 @@
 import { LoadingOverlay, Tabs } from '@mantine/core';
+import { useRouter } from 'next/router';
 
 import Display from '../../src/components/categories/Display';
 import Edito from '../../src/components/categories/Edito';
@@ -7,8 +8,18 @@ import VideosList from '../../src/components/VideosList';
 import { Video } from '../../src/fetcher/contents/videos';
 import useCategoryByIdQuery from '../../src/hooks/useCategoryByIdQuery';
 
+const tabsMap: {
+  [key: string]: number;
+} = {
+  display: 0,
+  videos: 1,
+  playlists: 2,
+};
+
 function CategoryId() {
   const { data, isLoading } = useCategoryByIdQuery();
+  const router = useRouter();
+
   return (
     <CategoryPageLayout>
       <div
@@ -18,7 +29,15 @@ function CategoryId() {
       >
         <LoadingOverlay visible={isLoading} />
         {data && (
-          <Tabs>
+          <Tabs
+            active={tabsMap[router.query.tabs as string]}
+            onTabChange={(i) =>
+              router.push({
+                pathname: router.asPath.split('?')[0],
+                query: { tabs: Object.keys(tabsMap).find((k) => tabsMap[k] === i) },
+              })
+            }
+          >
             <Tabs.Tab label="Display">
               <Edito {...data} />
               <Display {...data} />
