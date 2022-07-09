@@ -3,7 +3,7 @@ import { betterFetch } from '../betterFetch';
 import { Video } from './videos';
 
 export const videoById = (videoId: string, accountKey?: string) => ({
-  key: ['videos', { videoId, accountKey }],
+  key: ['video', { videoId, accountKey }],
   query: async () =>
     betterFetch(`${MAIN_API_URL}/videos/${videoId}`, {
       headers: {

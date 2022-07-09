@@ -6,6 +6,9 @@ export type Video = {
   name: string;
   poster: string | null;
   portraitThumbnail: string | null;
+  description: string | null;
+  fullDescription: string | null;
+  technicalDescription: string | null;
 };
 
 export const videos = (accountKey?: string) => ({

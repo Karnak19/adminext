@@ -11,7 +11,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Link from 'next/link';
-import { Video } from 'tabler-icons-react';
+import { Category, Playlist, Video } from 'tabler-icons-react';
 
 import AccountSelector from './AccountSelector';
 import UserMenu from './UserMenu';
@@ -20,14 +20,17 @@ const pages = [
   {
     name: 'Videos',
     path: '/videos',
+    icon: <Video />,
   },
   {
     name: 'Categories',
     path: '/categories',
+    icon: <Category />,
   },
   {
     name: 'Playlists',
     path: '/playlists',
+    icon: <Playlist />,
   },
 ];
 
@@ -50,7 +53,7 @@ function Layout({ children }: PropsWithChildren<{}>) {
             <Stack justify="center" align="stretch">
               {pages.map((page) => (
                 <Link passHref href={page.path} key={page.path}>
-                  <Button leftIcon={<Video />}>{page.name}</Button>
+                  <Button leftIcon={page.icon}>{page.name}</Button>
                 </Link>
               ))}
             </Stack>
