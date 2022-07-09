@@ -1,16 +1,21 @@
 import create from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
+type Account = {
+  id: string;
+  name: string;
+  key: string;
+};
 interface Store {
-  accountKey: string | null;
-  selectAccount: (accountKey: string) => void;
+  account: Account | null;
+  selectAccount: (account: Account) => void;
 }
 
 export const useStore = create<Store>()(
   devtools(
     persist((set) => ({
-      accountKey: null,
-      selectAccount: (accountKey: string) => set((state) => ({ ...state, accountKey })),
+      account: null,
+      selectAccount: (account: Account) => set((state) => ({ ...state, account })),
     })),
   ),
 );

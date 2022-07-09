@@ -8,6 +8,7 @@ import { useStore } from '../store';
 function AccountSelector() {
   const { data, isLoading } = useAccountsQuery();
 
+  const selectedAccount = useStore((state) => state.account);
   const select = useStore((state) => state.selectAccount);
 
   return (
@@ -15,6 +16,7 @@ function AccountSelector() {
       label="pick an account"
       placeholder="Choose an account"
       icon={<UserSearch />}
+      defaultValue={selectedAccount?.name}
       data={(data ?? []).map((account) => ({
         value: account.name,
         id: account.id,
@@ -22,7 +24,13 @@ function AccountSelector() {
       }))}
       dropdownPosition="top"
       disabled={isLoading}
-      onItemSubmit={(value) => select(value.accountKey)}
+      onItemSubmit={(value) =>
+        select({
+          id: value.id,
+          key: value.accountKey,
+          name: value.value,
+        })
+      }
     />
   );
 }

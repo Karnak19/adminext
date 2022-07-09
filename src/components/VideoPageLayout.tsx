@@ -16,10 +16,10 @@ function VideoPageLayout({ children }: { children: React.ReactNode }) {
       }}
     >
       <LoadingOverlay visible={isLoading} />
-      <Grid.Col span={4}>
+      <Grid.Col span={3}>
         <VideosList />
       </Grid.Col>
-      <Grid.Col span={8}>{children}</Grid.Col>
+      <Grid.Col span={9}>{children}</Grid.Col>
     </Grid>
   );
 }

@@ -6,7 +6,7 @@ import { useStore } from '../store';
 
 const useVideoByIdQuery = (videoId?: string) => {
   const router = useRouter();
-  const accountKey = useStore((state) => state.accountKey);
+  const accountKey = useStore((state) => state.account?.key);
 
   const { key, query } = fetcher.getVideoById(
     videoId || (router.query.id as string),

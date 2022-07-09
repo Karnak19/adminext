@@ -4,7 +4,7 @@ import fetcher from '../fetcher';
 import { useStore } from '../store';
 
 const useVideosQuery = () => {
-  const accountKey = useStore((state) => state.accountKey);
+  const accountKey = useStore((state) => state.account?.key);
 
   const { key, query } = fetcher.getVideos(accountKey ?? undefined);
 

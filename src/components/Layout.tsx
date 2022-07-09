@@ -11,6 +11,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Link from 'next/link';
+import { Video } from 'tabler-icons-react';
 
 import AccountSelector from './AccountSelector';
 import UserMenu from './UserMenu';
@@ -46,10 +47,10 @@ function Layout({ children }: PropsWithChildren<{}>) {
       navbar={
         <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 230 }}>
           <Navbar.Section grow mt="md">
-            <Stack>
+            <Stack justify="center" align="stretch">
               {pages.map((page) => (
                 <Link passHref href={page.path} key={page.path}>
-                  <Button>{page.name}</Button>
+                  <Button leftIcon={<Video />}>{page.name}</Button>
                 </Link>
               ))}
             </Stack>

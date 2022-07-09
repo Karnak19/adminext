@@ -1,5 +1,7 @@
-import { Grid, Image, LoadingOverlay, Text } from '@mantine/core';
+import { LoadingOverlay, Tabs } from '@mantine/core';
 
+import Display from '../../src/components/video/Display';
+import Edito from '../../src/components/video/Edito';
 import VideoPageLayout from '../../src/components/VideoPageLayout';
 import useVideoByIdQuery from '../../src/hooks/useVideosByIdQuery';
 
@@ -7,36 +9,23 @@ function VideoId() {
   const { data, isLoading } = useVideoByIdQuery();
   return (
     <VideoPageLayout>
-      <Grid
+      <div
         style={{
           position: 'relative',
         }}
       >
         <LoadingOverlay visible={isLoading} />
         {data && (
-          <>
-            <Grid.Col span={12}>
-              <Text>{data.name}</Text>
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <Image
-                src={data.poster ?? undefined}
-                alt="With default placeholder"
-                caption="Landscape"
-                withPlaceholder
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <Image
-                src={data.portraitThumbnail ?? undefined}
-                alt="With default placeholder"
-                caption="Portrait"
-                withPlaceholder
-              />
-            </Grid.Col>
-          </>
+          <Tabs>
+            <Tabs.Tab label="Display">
+              <Display {...data} />
+            </Tabs.Tab>
+            <Tabs.Tab label="Edito">
+              <Edito {...data} />
+            </Tabs.Tab>
+          </Tabs>
         )}
-      </Grid>
+      </div>
     </VideoPageLayout>
   );
 }
