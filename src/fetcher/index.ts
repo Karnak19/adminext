@@ -1,3 +1,4 @@
+import { videoById } from './contents/videoById';
 import { videos } from './contents/videos';
 import { accounts } from './users/accounts';
 import { login } from './users/login';
@@ -13,6 +14,7 @@ const fetcher = {
   getMeContext: context,
   getAccounts: accounts,
   getVideos: videos,
+  getVideoById: videoById,
 };
 
 export default fetcher;

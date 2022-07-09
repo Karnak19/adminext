@@ -1,8 +1,15 @@
 import { MAIN_API_URL } from '..';
 import { betterFetch } from '../betterFetch';
 
+export type Video = {
+  id: string;
+  name: string;
+  poster: string | null;
+  portraitThumbnail: string | null;
+};
+
 export const videos = (accountKey?: string) => ({
-  key: ['videos', accountKey],
+  key: ['videos', { accountKey }],
   query: async () =>
     betterFetch(`${MAIN_API_URL}/videos`, {
       headers: {
@@ -10,5 +17,5 @@ export const videos = (accountKey?: string) => ({
         Accept: 'application/json',
         'x-account-key': accountKey || '',
       },
-    }).then((response) => response.json()),
+    }).then((response) => response.json() as Promise<Video[]>),
 });

@@ -2,16 +2,33 @@ import { PropsWithChildren, useState } from 'react';
 import {
   AppShell,
   Burger,
+  Button,
   Grid,
   Header,
   MediaQuery,
   Navbar,
-  Text,
+  Stack,
   useMantineTheme,
 } from '@mantine/core';
+import Link from 'next/link';
 
 import AccountSelector from './AccountSelector';
 import UserMenu from './UserMenu';
+
+const pages = [
+  {
+    name: 'Videos',
+    path: '/videos',
+  },
+  {
+    name: 'Categories',
+    path: '/categories',
+  },
+  {
+    name: 'Playlists',
+    path: '/playlists',
+  },
+];
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function Layout({ children }: PropsWithChildren<{}>) {
@@ -29,7 +46,13 @@ function Layout({ children }: PropsWithChildren<{}>) {
       navbar={
         <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 230 }}>
           <Navbar.Section grow mt="md">
-            <Text>Application navbar</Text>
+            <Stack>
+              {pages.map((page) => (
+                <Link passHref href={page.path} key={page.path}>
+                  <Button>{page.name}</Button>
+                </Link>
+              ))}
+            </Stack>
           </Navbar.Section>
           <Navbar.Section>
             <AccountSelector />
