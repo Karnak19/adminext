@@ -1,6 +1,7 @@
-import { useQuery } from "react-query";
-import fetcher from "../fetcher";
-import getToken from "../fetcher/getToken";
+import { useQuery } from 'react-query';
+
+import fetcher from '../fetcher';
+import getToken from '../fetcher/getToken';
 
 const useAccountsQuery = () => {
   const token = getToken();

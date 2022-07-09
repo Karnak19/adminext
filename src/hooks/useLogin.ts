@@ -1,8 +1,9 @@
-import { setCookie } from "cookies-next";
-import { useMutation } from "react-query";
-import fetcher from "../fetcher";
-import { ACCESS_TOKEN_KEY } from "../fetcher/getToken";
-import { queryClient } from "../fetcher/queryClient";
+import { useMutation } from 'react-query';
+import { setCookie } from 'cookies-next';
+
+import fetcher from '../fetcher';
+import { ACCESS_TOKEN_KEY } from '../fetcher/getToken';
+import { queryClient } from '../fetcher/queryClient';
 
 const useLogin = () => {
   return useMutation<
@@ -15,9 +16,8 @@ const useLogin = () => {
   >((user) => fetcher.login(user.username, user.password).query(), {
     onSuccess: (res) => {
       setCookie(ACCESS_TOKEN_KEY, res.token);
-      queryClient.fetchQuery(["me"]);
-      queryClient.fetchQuery(["context"]);
-      console.log(res);
+      queryClient.fetchQuery(['me']);
+      queryClient.fetchQuery(['context']);
     },
   });
 };

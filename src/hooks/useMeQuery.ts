@@ -1,6 +1,7 @@
-import { useQuery } from "react-query";
-import fetcher from "../fetcher";
-import getToken from "../fetcher/getToken";
+import { useQuery } from 'react-query';
+
+import fetcher from '../fetcher';
+import getToken from '../fetcher/getToken';
 
 const useMeQuery = () => {
   const token = getToken();
@@ -9,11 +10,13 @@ const useMeQuery = () => {
 
   const me = useQuery(getMe.key, getMe.query, {
     enabled: !!token,
+    retry: false,
     staleTime: 10 * 60 * 1000,
   });
 
   const context = useQuery(getContext.key, getContext.query, {
     enabled: !!token,
+    retry: false,
     staleTime: 10 * 60 * 1000,
   });
 

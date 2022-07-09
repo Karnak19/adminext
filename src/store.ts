@@ -1,5 +1,5 @@
-import create from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import create from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
 interface Store {
   accountKey: string | null;
@@ -10,8 +10,7 @@ export const useStore = create<Store>()(
   devtools(
     persist((set) => ({
       accountKey: null,
-      selectAccount: (accountKey: string) =>
-        set((state) => ({ ...state, accountKey })),
-    }))
-  )
+      selectAccount: (accountKey: string) => set((state) => ({ ...state, accountKey })),
+    })),
+  ),
 );

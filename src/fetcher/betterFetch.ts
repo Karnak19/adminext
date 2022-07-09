@@ -3,11 +3,12 @@ import getToken from "./getToken";
 export const betterFetch = async (url: string, options: RequestInit = {}) => {
   const token = getToken();
   const response = await fetch(url, {
+    ...options,
     headers: {
+      ...options.headers,
       Authorization:
         (token?.startsWith("Bearer ") ? token : `Bearer ${token}`) || "",
     },
-    ...options,
   });
 
   if (!response.ok) {

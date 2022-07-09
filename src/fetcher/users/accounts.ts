@@ -1,5 +1,5 @@
-import { USERS_SERVICE_URL } from "..";
-import { betterFetch } from "../betterFetch";
+import { USERS_SERVICE_URL } from '..';
+import { betterFetch } from '../betterFetch';
 
 export type Account = {
   id: string;
@@ -8,9 +8,9 @@ export type Account = {
 };
 
 export const accounts = () => ({
-  key: ["accounts"],
+  key: ['accounts'],
   query: async () =>
     betterFetch(`${USERS_SERVICE_URL}/accounts`).then(
-      (response) => response.json() as Promise<Account[]>
+      (response) => response.json() as Promise<Account[]>,
     ),
 });
