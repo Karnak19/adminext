@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -26,14 +27,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           loader: 'bars',
         }}
       >
-        <QueryClientProvider client={queryClient}>
-          <Auth>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Auth>
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-        </QueryClientProvider>
+        <NotificationsProvider>
+          <QueryClientProvider client={queryClient}>
+            <Auth>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </Auth>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          </QueryClientProvider>
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );

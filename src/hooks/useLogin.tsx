@@ -1,5 +1,7 @@
 import { useMutation } from 'react-query';
+import { showNotification } from '@mantine/notifications';
 import { setCookie } from 'cookies-next';
+import { CircleCheck } from 'tabler-icons-react';
 
 import fetcher from '../fetcher';
 import { ACCESS_TOKEN_KEY } from '../fetcher/getToken';
@@ -18,6 +20,12 @@ const useLogin = () => {
       setCookie(ACCESS_TOKEN_KEY, res.token);
       queryClient.fetchQuery(['me']);
       queryClient.fetchQuery(['context']);
+
+      showNotification({
+        message: 'Login successful',
+        icon: <CircleCheck />,
+        color: 'lime',
+      });
     },
   });
 };
