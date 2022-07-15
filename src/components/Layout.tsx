@@ -11,7 +11,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Link from 'next/link';
-import { Category, Playlist, Video } from 'tabler-icons-react';
+import { Category, Playlist, Users, Video } from 'tabler-icons-react';
 
 import AccountSelector from './AccountSelector';
 import UserMenu from './UserMenu';
@@ -31,6 +31,11 @@ const pages = [
     name: 'Playlists',
     path: '/playlists',
     icon: <Playlist />,
+  },
+  {
+    name: 'Fans',
+    path: '/fans',
+    icon: <Users />,
   },
 ];
 

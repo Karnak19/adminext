@@ -2,21 +2,20 @@ import React, { useMemo, useState } from 'react';
 import { Avatar, Stack, Table, TextInput } from '@mantine/core';
 import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
-import { Video } from 'tabler-icons-react';
+import { Users } from 'tabler-icons-react';
 
-import { Video as TVideo } from '../fetcher/contents/videos';
-import useVideosQuery from '../hooks/useVideosQuery';
+import useFansQuery from '../hooks/useFansQuery';
 
-function VideosList({ videos }: { videos?: TVideo[] }) {
+function VideosList() {
   const router = useRouter();
-  const { data } = useVideosQuery(!videos);
+  const { data } = useFansQuery();
 
   const [search, setSearch] = useState('');
 
   const fuse = useMemo(
     () =>
-      new Fuse(videos || data || [], {
-        keys: ['name'],
+      new Fuse(data || [], {
+        keys: ['username', 'email'],
         minMatchCharLength: 2,
       }),
     [data],
@@ -31,30 +30,32 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
               cursor: 'pointer',
             }}
             key={item.id}
-            onClick={() => router.push(`/videos/${item.id}`)}
+            onClick={() => router.push(`/fans/${item.id}`)}
           >
-            <td>
-              <Avatar src={`${item.poster}?auto=format&h=120&w=120`} />
-            </td>
-            <td>{item.name}</td>
+            <td>{item.username}</td>
+            <td>{item.email}</td>
           </tr>
         );
       }),
     [fuse, search],
   );
 
-  const results = (videos || data)?.map((video) => (
+  const results = data?.map((fan) => (
     <tr
       style={{
         cursor: 'pointer',
       }}
-      key={video.id}
-      onClick={() => router.push(`/videos/${video.id}`)}
+      key={fan.id}
+      onClick={() => router.push(`/fans/${fan.id}`)}
     >
       <td>
-        <Avatar src={`${video.poster}?auto=format&h=120&w=120`} />
+        <Avatar color="blue" src={`${fan.imageUrl}`} alt={fan.username}>
+          {fan.username.split(' ')[0][0]}
+          {fan.username.split(' ')[1][0]}
+        </Avatar>
       </td>
-      <td>{video.name}</td>
+      <td>{fan.username}</td>
+      <td>{fan.email}</td>
     </tr>
   ));
 
@@ -65,15 +66,16 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
           label="Search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Filter videos"
-          icon={<Video />}
+          placeholder="Filter fans"
+          icon={<Users />}
         />
       </div>
       <Table striped highlightOnHover>
         <thead>
           <tr>
-            <th>Thumbnail</th>
-            <th>Title</th>
+            <th>Avatar</th>
+            <th>Full name</th>
+            <th>Email</th>
           </tr>
         </thead>
         <tbody>{search ? fuzzyResults : results}</tbody>

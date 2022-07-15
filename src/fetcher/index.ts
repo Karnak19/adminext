@@ -3,6 +3,8 @@ import { categoryById } from './contents/categoryById';
 import { videoById } from './contents/videoById';
 import { videos } from './contents/videos';
 import { accounts } from './users/accounts';
+import { fanById } from './users/fanById';
+import { fans } from './users/fans';
 import { login } from './users/login';
 import { context, me } from './users/me';
 
@@ -19,6 +21,8 @@ const fetcher = {
   getVideoById: videoById,
   getCategoryById: categoryById,
   getCategories: categories,
+  getFans: fans,
+  getFanById: fanById,
 };
 
 export default fetcher;

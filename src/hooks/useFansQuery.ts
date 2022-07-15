@@ -3,14 +3,14 @@ import { useQuery } from 'react-query';
 import fetcher from '../fetcher';
 import { useStore } from '../store';
 
-const useVideosQuery = (enabled = true) => {
+const useFansQuery = () => {
   const accountKey = useStore((state) => state.account?.key);
 
-  const { key, query } = fetcher.getVideos(accountKey ?? undefined);
+  const { key, query } = fetcher.getFans(accountKey);
 
   return useQuery(key, query, {
-    enabled,
+    enabled: !!accountKey,
   });
 };
 
-export default useVideosQuery;
+export default useFansQuery;

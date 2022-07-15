@@ -1,6 +1,7 @@
 import React from 'react';
 import { Autocomplete } from '@mantine/core';
-import { UserSearch } from 'tabler-icons-react';
+import { showNotification } from '@mantine/notifications';
+import { ShieldCheck, UserSearch } from 'tabler-icons-react';
 
 import useAccountsQuery from '../hooks/useAccountsQuery';
 import { useStore } from '../store';
@@ -24,13 +25,20 @@ function AccountSelector() {
       }))}
       dropdownPosition="top"
       disabled={isLoading}
-      onItemSubmit={(value) =>
+      onItemSubmit={(value) => {
         select({
           id: value.id,
           key: value.accountKey,
           name: value.value,
-        })
-      }
+        });
+
+        showNotification({
+          title: `${value.value} selected`,
+          message: `You will now see the ${value.value} data (videos, categories, playlists...)`,
+          icon: <ShieldCheck />,
+          color: 'blue',
+        });
+      }}
     />
   );
 }
