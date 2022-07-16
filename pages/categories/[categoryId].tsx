@@ -47,7 +47,7 @@ function CategoryId() {
               <Display {...data} />
             </Tabs.Tab>
             <Tabs.Tab label="Videos">
-              <VideosList videos={data.Videos as Video[]} />
+              <VideosList videos={data.Videos as unknown as Video[]} />
             </Tabs.Tab>
             <Tabs.Tab label="Playlists">
               <PlaylistsList playlists={data.Playlists as Playlist[]} />

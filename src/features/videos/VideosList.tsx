@@ -37,7 +37,9 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
             className={isSelected(item.id) ? classes.root : undefined}
           >
             <td>
-              <Avatar src={`${item.poster}?auto=format&h=120&w=120`} />
+              <Avatar src={`${item.poster}?auto=format&h=120&w=120`}>
+                <Video />
+              </Avatar>
             </td>
             <td>{item.name}</td>
           </tr>
@@ -46,19 +48,21 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
     [fuse, search],
   );
 
-  const results = (videos || data)?.map((video) => (
+  const results = (videos || data)?.map((item) => (
     <tr
       style={{
         cursor: 'pointer',
       }}
-      key={video.id}
-      onClick={() => router.push(`/videos/${video.id}`)}
-      className={isSelected(video.id) ? classes.root : undefined}
+      key={item.id}
+      onClick={() => router.push(`/videos/${item.id}`)}
+      className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>
-        <Avatar src={`${video.poster}?auto=format&h=120&w=120`} />
+        <Avatar src={`${item.poster}?auto=format&h=120&w=120`}>
+          <Video />
+        </Avatar>
       </td>
-      <td>{video.name}</td>
+      <td>{item.name}</td>
     </tr>
   ));
 
