@@ -46,7 +46,9 @@ function VideoId() {
               <Links {...data} />
             </Tabs.Tab>
             <Tabs.Tab label="Player">
-              <Player videoId={data.id} url={data.url} />
+              <Player
+              // videoId={data.id} url={data.url}
+              />
             </Tabs.Tab>
           </Tabs>
         )}
