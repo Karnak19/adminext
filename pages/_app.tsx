@@ -16,7 +16,7 @@ import useMeQuery from '../src/features/auth/useMeQuery';
 function MyApp({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'color-scheme',
-    defaultValue: 'light',
+    defaultValue: 'dark',
   });
 
   return (

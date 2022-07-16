@@ -2,40 +2,43 @@ import React from 'react';
 import { Button, createStyles, Group, Paper, PasswordInput, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
+import { setOpacity } from '../../app/setOpacity';
 import useLoginMutation from './useLoginMutation';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    height: 'min(100vh, 100%)',
+    height: '100vh',
+    display: 'grid',
+    placeItems: 'center',
     backgroundSize: 'cover',
     backgroundImage:
-      'url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80)',
-  },
-
-  form: {
-    borderRight: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
-    }`,
-    height: 'min(100vh, 900px)',
-    maxWidth: 450,
-    paddingTop: 80,
-    position: 'relative',
-
+      'url(https://assets.website-files.com/605c6a95b5fd727aeb0983c5/60d321731ef1dd7f6efd9e95_header_ourwork.png)',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      maxWidth: '100%',
+      placeItems: 'start',
     },
   },
 
-  title: {
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+  form: {
+    width: 'min(100%, 450px)',
+    padding: '2rem 4rem',
+    backgroundColor: setOpacity(
+      theme.colorScheme === 'dark' ? theme.colors.dark[9] : 'ffffff',
+      0.2,
+    ),
+    backdropFilter: 'blur(15px)',
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      width: '100vw',
+    },
   },
 
-  logo: {
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    width: 120,
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+  flex: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  },
+
+  title: {
+    color: theme.white,
   },
 }));
 
@@ -56,19 +59,24 @@ function LoginForm() {
 
   return (
     <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={30}>
+      <Paper className={classes.form} radius={5}>
         <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
           Origins Digital VMS
         </Title>
 
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form onSubmit={form.onSubmit(handleSubmit)} className={classes.flex}>
           <TextInput
             required
             label="Username"
             placeholder="who are you"
             {...form.getInputProps('email')}
           />
-          <PasswordInput required label="password" {...form.getInputProps('password')} />
+          <PasswordInput
+            required
+            label="Password"
+            placeholder="********"
+            {...form.getInputProps('password')}
+          />
           <Group position="right" mt="md">
             <Button loading={login.isLoading} type="submit">
               Submit
