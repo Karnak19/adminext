@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { createStyles, SimpleGrid, useMantineTheme } from '@mantine/core';
+import { createStyles, LoadingOverlay, SimpleGrid, useMantineTheme } from '@mantine/core';
 import { Category, Id, Playlist, Users, Video } from 'tabler-icons-react';
 
 import Stat from '../src/components/home/Stat';
@@ -11,6 +11,7 @@ import { useGetVideosQuery } from '../src/features/videos';
 const useStyles = createStyles((theme) => ({
   root: {
     padding: theme.spacing.xl * 1.5,
+    position: 'relative',
   },
 
   value: {
@@ -36,11 +37,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Home() {
-  const { data: categories } = useGetCategoriesQuery();
-  const { data: fans } = useGetFansQuery();
-  const { data: videos } = useGetVideosQuery();
-  const { data: playlists } = useGetPlaylistsQuery();
+  const { data: categories, isLoading: isCatLoading } = useGetCategoriesQuery();
+  const { data: fans, isLoading: isFansLoading } = useGetFansQuery();
+  const { data: videos, isLoading: isVideosLoading } = useGetVideosQuery();
+  const { data: playlists, isLoading: isPlaylistsLoading } = useGetPlaylistsQuery();
   const { colors } = useMantineTheme();
+
+  const isLoading = isCatLoading || isFansLoading || isVideosLoading || isPlaylistsLoading;
 
   const data = useMemo(() => {
     return [
@@ -81,6 +84,7 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
+      <LoadingOverlay visible={isLoading} />
       <SimpleGrid
         cols={4}
         breakpoints={[
