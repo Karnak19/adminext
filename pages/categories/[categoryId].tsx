@@ -1,12 +1,14 @@
 import { LoadingOverlay, Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 
-import Display from '../../src/components/categories/Display';
-import Edito from '../../src/components/categories/Edito';
-import CategoryPageLayout from '../../src/components/CategoryPageLayout';
-import VideosList from '../../src/components/VideosList';
-import { Video } from '../../src/fetcher/contents/videos';
-import useCategoryByIdQuery from '../../src/hooks/useCategoryByIdQuery';
+import {
+  CategoryPageLayout,
+  Display,
+  Edito,
+  useGetCategoryByIdQuery,
+} from '../../src/features/categories';
+import { VideosList } from '../../src/features/videos';
+import { Video } from '../../src/features/videos/fetcher';
 
 const tabsMap: {
   [key: string]: number;
@@ -17,7 +19,7 @@ const tabsMap: {
 };
 
 function CategoryId() {
-  const { data, isLoading } = useCategoryByIdQuery();
+  const { data, isLoading } = useGetCategoryByIdQuery();
   const router = useRouter();
 
   return (

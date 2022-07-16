@@ -17,9 +17,7 @@
   },
   "paths": {
     "$components/*": ["src/components/*"],
-    "$hooks/*": ["src/hooks/*"],
-    "$types/*": ["src/types/*"],
-    "$fetcher/*": ["src/fetcher/*"]
+    "$features/*": ["src/features/*"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

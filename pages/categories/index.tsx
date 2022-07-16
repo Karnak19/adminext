@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CategoryPageLayout from '../../src/components/CategoryPageLayout';
+import { CategoryPageLayout } from '../../src/features/categories';
 
 function Categories() {
   return (

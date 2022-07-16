@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VideoPageLayout from '../../src/components/VideoPageLayout';
+import { VideoPageLayout } from '../../src/features/videos';
 
 function Videos() {
   return (

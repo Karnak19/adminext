@@ -1,12 +1,9 @@
 import { LoadingOverlay, Tabs } from '@mantine/core';
 
-import Display from '../../src/components/video/Display';
-import Edito from '../../src/components/video/Edito';
-import VideoPageLayout from '../../src/components/VideoPageLayout';
-import useVideoByIdQuery from '../../src/hooks/useVideosByIdQuery';
+import { Display, Edito, useGetVideoByIdQuery, VideoPageLayout } from '../../src/features/videos';
 
 function VideoId() {
-  const { data, isLoading } = useVideoByIdQuery();
+  const { data, isLoading } = useGetVideoByIdQuery();
   return (
     <VideoPageLayout>
       <div

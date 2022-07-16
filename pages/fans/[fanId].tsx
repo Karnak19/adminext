@@ -3,8 +3,7 @@ import { LoadingOverlay, Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { FaceIdError } from 'tabler-icons-react';
 
-import FanPageLayout from '../../src/components/FanPageLayout';
-import useFanByIdQuery from '../../src/hooks/useFanByIdQuery';
+import { FanPageLayout, useGetFanByIdQuery } from '../../src/features/fans';
 
 const tabsMap: {
   [key: string]: number;
@@ -15,7 +14,7 @@ const tabsMap: {
 
 function FanId() {
   const router = useRouter();
-  const { isLoading, data } = useFanByIdQuery();
+  const { isLoading, data } = useGetFanByIdQuery();
 
   return (
     <FanPageLayout>

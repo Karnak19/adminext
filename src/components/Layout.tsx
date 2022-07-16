@@ -3,6 +3,7 @@ import {
   AppShell,
   Burger,
   Button,
+  createStyles,
   Grid,
   Header,
   MediaQuery,
@@ -13,8 +14,17 @@ import {
 import Link from 'next/link';
 import { Category, Playlist, Users, Video } from 'tabler-icons-react';
 
-import AccountSelector from './AccountSelector';
-import UserMenu from './UserMenu';
+import { AccountSelector } from '../features/account';
+import UserMenu from '../features/auth/UserMenu';
+import ThemeToggler from './ThemeToggler';
+
+const useStyles = createStyles(() => ({
+  flex: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: '1rem',
+  },
+}));
 
 const pages = [
   {
@@ -42,6 +52,7 @@ const pages = [
 // eslint-disable-next-line @typescript-eslint/ban-types
 function Layout({ children }: PropsWithChildren<{}>) {
   const [opened, setOpened] = useState(false);
+  const { classes } = useStyles();
 
   const theme = useMantineTheme();
 
@@ -82,14 +93,9 @@ function Layout({ children }: PropsWithChildren<{}>) {
                 />
               </MediaQuery>
             </Grid.Col>
-            <Grid.Col
-              span={3}
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-              }}
-            >
+            <Grid.Col span={4} className={classes.flex}>
               <UserMenu />
+              <ThemeToggler />
             </Grid.Col>
           </Grid>
         </Header>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FanPageLayout from '../../src/components/FanPageLayout';
+import { FanPageLayout } from '../../src/features/fans';
 
 function Fans() {
   return (
