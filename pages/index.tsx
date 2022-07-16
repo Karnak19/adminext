@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { createStyles, SimpleGrid, useMantineTheme } from '@mantine/core';
-import { Category, Playlist, Users, Video } from 'tabler-icons-react';
+import { Category, Id, Playlist, Users, Video } from 'tabler-icons-react';
 
 import Stat from '../src/components/home/Stat';
 import { useGetCategoriesQuery } from '../src/features/categories';
 import { useGetFansQuery } from '../src/features/fans';
+import { useGetPlaylistsQuery } from '../src/features/playlists';
 import { useGetVideosQuery } from '../src/features/videos';
 
 const useStyles = createStyles((theme) => ({
@@ -38,6 +39,7 @@ export default function Home() {
   const { data: categories } = useGetCategoriesQuery();
   const { data: fans } = useGetFansQuery();
   const { data: videos } = useGetVideosQuery();
+  const { data: playlists } = useGetPlaylistsQuery();
   const { colors } = useMantineTheme();
 
   const data = useMemo(() => {
@@ -63,8 +65,14 @@ export default function Home() {
       {
         title: 'Playlists',
         icon: <Playlist color={colors.blue[0]} />,
-        value: 0,
+        value: playlists?.length || 0,
         path: '/playlists',
+      },
+      {
+        title: 'Profiles',
+        icon: <Id color={colors.blue[0]} />,
+        value: 0,
+        path: '/profiles',
       },
     ];
   }, [categories, fans, videos]);

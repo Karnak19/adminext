@@ -7,6 +7,8 @@ import {
   Edito,
   useGetCategoryByIdQuery,
 } from '../../src/features/categories';
+import { PlaylistsList } from '../../src/features/playlists';
+import { Playlist } from '../../src/features/playlists/fetcher';
 import { VideosList } from '../../src/features/videos';
 import { Video } from '../../src/features/videos/fetcher';
 
@@ -48,7 +50,7 @@ function CategoryId() {
               <VideosList videos={data.Videos as Video[]} />
             </Tabs.Tab>
             <Tabs.Tab label="Playlists">
-              <Edito {...data} />
+              <PlaylistsList playlists={data.Playlists as Playlist[]} />
             </Tabs.Tab>
           </Tabs>
         )}

@@ -4,17 +4,21 @@ import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Playlist } from 'tabler-icons-react';
 
+import { useSelected } from '../../hooks/useSelectedStyle';
 import { useGetPlaylistsQuery } from '.';
+import { Playlist as TPlaylist } from './fetcher';
 
-function PlaylistsList() {
+function PlaylistsList({ playlists }: { playlists?: TPlaylist[] }) {
+  const { classes, isSelected } = useSelected('playlistId');
+
   const router = useRouter();
-  const { data = [] } = useGetPlaylistsQuery();
+  const { data = [] } = useGetPlaylistsQuery(!playlists);
 
   const [search, setSearch] = useState('');
 
   const fuse = useMemo(
     () =>
-      new Fuse(data || [], {
+      new Fuse(playlists || data || [], {
         keys: ['name'],
         minMatchCharLength: 2,
       }),
@@ -29,6 +33,7 @@ function PlaylistsList() {
         }}
         key={item.id}
         onClick={() => router.push(`/playlists/${item.id}`)}
+        className={isSelected(item.id) ? classes.root : undefined}
       >
         <td>
           <Avatar src={`${item.thumbnail}?auto=format&h=120&w=120`} />
@@ -38,13 +43,14 @@ function PlaylistsList() {
     );
   });
 
-  const results = data?.map((playlist) => (
+  const results = (playlists || data)?.map((playlist) => (
     <tr
       style={{
         cursor: 'pointer',
       }}
       key={playlist.id}
       onClick={() => router.push(`/playlists/${playlist.id}`)}
+      className={isSelected(playlist.id) ? classes.root : undefined}
     >
       <td>
         <Avatar src={`${playlist.thumbnail}?auto=format&h=120&w=120`} />

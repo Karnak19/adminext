@@ -4,11 +4,13 @@ import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Users } from 'tabler-icons-react';
 
+import { useSelected } from '../../hooks/useSelectedStyle';
 import { useGetFansQuery } from '.';
 
 function VideosList() {
   const router = useRouter();
-  const { data } = useGetFansQuery();
+  const { classes, isSelected } = useSelected('fanId');
+  const { data = [] } = useGetFansQuery();
 
   const [search, setSearch] = useState('');
 
@@ -31,6 +33,7 @@ function VideosList() {
             }}
             key={item.id}
             onClick={() => router.push(`/fans/${item.id}`)}
+            className={isSelected(item.id) ? classes.root : undefined}
           >
             <td>{item.username}</td>
             <td>{item.email}</td>
@@ -40,22 +43,23 @@ function VideosList() {
     [fuse, search],
   );
 
-  const results = data?.map((fan) => (
+  const results = data?.map((item) => (
     <tr
       style={{
         cursor: 'pointer',
       }}
-      key={fan.id}
-      onClick={() => router.push(`/fans/${fan.id}`)}
+      key={item.id}
+      onClick={() => router.push(`/fans/${item.id}`)}
+      className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>
-        <Avatar color="blue" src={`${fan.imageUrl}`} alt={fan.username}>
-          {fan.firstname?.[0]}
-          {fan.lastname?.[0]}
+        <Avatar color="blue" src={`${item.imageUrl}`} alt={item.username}>
+          {item.firstname?.[0]}
+          {item.lastname?.[0]}
         </Avatar>
       </td>
-      <td>{fan.username}</td>
-      <td>{fan.email}</td>
+      <td>{item.username}</td>
+      <td>{item.email}</td>
     </tr>
   ));
 

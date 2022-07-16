@@ -4,14 +4,6 @@ import { useRouter } from 'next/router';
 import { useStore } from '../../app/store';
 import { getPlaylistById, getPlaylists } from './fetcher';
 
-export const useGetPlaylistsQuery = () => {
-  const accountKey = useStore((state) => state.account?.key);
-
-  const { key, query } = getPlaylists(accountKey ?? undefined);
-
-  return useQuery(key, query);
-};
-
 export const useGetPlaylistByIdQuery = (playlistId?: string) => {
   const router = useRouter();
   const accountKey = useStore((state) => state.account?.key);
@@ -22,5 +14,15 @@ export const useGetPlaylistByIdQuery = (playlistId?: string) => {
 
   return useQuery(key, query, {
     enabled: !!id,
+  });
+};
+
+export const useGetPlaylistsQuery = (enabled = true) => {
+  const accountKey = useStore((state) => state.account?.key);
+
+  const { key, query } = getPlaylists(accountKey ?? undefined);
+
+  return useQuery(key, query, {
+    enabled,
   });
 };

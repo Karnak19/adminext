@@ -4,10 +4,12 @@ import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Video } from 'tabler-icons-react';
 
+import { useSelected } from '../../hooks/useSelectedStyle';
 import { useGetVideosQuery } from '.';
 import { Video as TVideo } from './fetcher';
 
 function VideosList({ videos }: { videos?: TVideo[] }) {
+  const { classes, isSelected } = useSelected('videoId');
   const router = useRouter();
   const { data } = useGetVideosQuery(!videos);
 
@@ -32,6 +34,7 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
             }}
             key={item.id}
             onClick={() => router.push(`/videos/${item.id}`)}
+            className={isSelected(item.id) ? classes.root : undefined}
           >
             <td>
               <Avatar src={`${item.poster}?auto=format&h=120&w=120`} />
@@ -50,6 +53,7 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
       }}
       key={video.id}
       onClick={() => router.push(`/videos/${video.id}`)}
+      className={isSelected(video.id) ? classes.root : undefined}
     >
       <td>
         <Avatar src={`${video.poster}?auto=format&h=120&w=120`} />

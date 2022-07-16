@@ -4,11 +4,13 @@ import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Category } from 'tabler-icons-react';
 
+import { useSelected } from '../../hooks/useSelectedStyle';
 import { useGetCategoriesQuery } from '.';
 
 function CategoriesList() {
   const router = useRouter();
-  const { data } = useGetCategoriesQuery();
+  const { classes, isSelected } = useSelected('categoryId');
+  const { data = [] } = useGetCategoriesQuery();
 
   const [search, setSearch] = useState('');
 
@@ -29,6 +31,7 @@ function CategoriesList() {
         }}
         key={item.id}
         onClick={() => router.push(`/categories/${item.id}`)}
+        className={isSelected(item.id) ? classes.root : undefined}
       >
         <td>
           <Avatar src={`${item.thumbnail}?auto=format&h=120&w=120`} />
@@ -38,18 +41,19 @@ function CategoriesList() {
     );
   });
 
-  const results = data?.map((video) => (
+  const results = data?.map((item) => (
     <tr
       style={{
         cursor: 'pointer',
       }}
-      key={video.id}
-      onClick={() => router.push(`/categories/${video.id}`)}
+      key={item.id}
+      onClick={() => router.push(`/categories/${item.id}`)}
+      className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>
-        <Avatar src={`${video.thumbnail}?auto=format&h=120&w=120`} />
+        <Avatar src={`${item.thumbnail}?auto=format&h=120&w=120`} />
       </td>
-      <td>{video.name}</td>
+      <td>{item.name}</td>
     </tr>
   ));
 
