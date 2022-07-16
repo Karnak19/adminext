@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { createStyles, SimpleGrid } from '@mantine/core';
+import { createStyles, SimpleGrid, useMantineTheme } from '@mantine/core';
 import { Category, Playlist, Users, Video } from 'tabler-icons-react';
 
 import Stat from '../src/components/home/Stat';
@@ -38,30 +38,31 @@ export default function Home() {
   const { data: categories } = useGetCategoriesQuery();
   const { data: fans } = useGetFansQuery();
   const { data: videos } = useGetVideosQuery();
+  const { colors } = useMantineTheme();
 
   const data = useMemo(() => {
     return [
       {
         title: 'Categories',
-        icon: <Category />,
+        icon: <Category color={colors.blue[0]} />,
         value: categories?.length || 0,
         path: '/categories',
       },
       {
         title: 'Fans',
-        icon: <Users />,
+        icon: <Users color={colors.blue[0]} />,
         value: fans?.length || 0,
         path: '/fans',
       },
       {
         title: 'Videos',
-        icon: <Video />,
+        icon: <Video color={colors.blue[0]} />,
         value: videos?.length || 0,
         path: '/videos',
       },
       {
         title: 'Playlists',
-        icon: <Playlist />,
+        icon: <Playlist color={colors.blue[0]} />,
         value: 0,
         path: '/playlists',
       },

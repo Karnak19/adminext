@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   value: {
+    color: theme.colors.blue[0],
     fontSize: 24,
     fontWeight: 700,
     lineHeight: 1,
@@ -11,13 +12,14 @@ const useStyles = createStyles((theme) => ({
   root: {
     cursor: 'pointer',
     transition: 'ease 100ms',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[7] : theme.colors.blue[4],
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[7] : theme.colors.blue[5],
     ':hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[9] : theme.colors.blue[3],
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[9] : theme.colors.blue[7],
     },
   },
 
   title: {
+    color: theme.colors.blue[0],
     fontWeight: 700,
     textTransform: 'uppercase',
   },

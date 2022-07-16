@@ -12,7 +12,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Link from 'next/link';
-import { Category, Playlist, Users, Video } from 'tabler-icons-react';
+import { Category, Home, Playlist, Users, Video } from 'tabler-icons-react';
 
 import { AccountSelector } from '../features/account';
 import UserMenu from '../features/auth/UserMenu';
@@ -27,6 +27,11 @@ const useStyles = createStyles(() => ({
 }));
 
 const pages = [
+  {
+    name: 'Dashboard',
+    path: '/',
+    icon: <Home />,
+  },
   {
     name: 'Videos',
     path: '/videos',
