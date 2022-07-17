@@ -1,58 +1,36 @@
 import React from 'react';
-import { Button, LoadingOverlay, SimpleGrid } from '@mantine/core';
+import { Tabs } from '@mantine/core';
+import { useRouter } from 'next/router';
 
-import ModuleChecker from '../src/components/settings/ModuleChecker';
-import { useGetModulesCombinedQuery } from '../src/features/modules';
+import Modules from '../src/components/settings/Modules';
+
+const tabsMap: {
+  [key: string]: number;
+} = {
+  general: 0,
+  modules: 1,
+};
 
 function Settings() {
-  const { account, all, setNewModules, newModules, mutation } = useGetModulesCombinedQuery();
-
-  const { data = [], isLoading: accountLoading } = account;
-  const { data: allData = [], isLoading: allLoading } = all;
-
-  const isLoading = allLoading || accountLoading;
-
-  const handleChange = (id: string) =>
-    setNewModules((prev) => {
-      const newSet = new Set(prev);
-      newSet.has(id) ? newSet.delete(id) : newSet.add(id);
-      return [...Array.from(newSet)];
-    });
-
-  // checking if the account got the module to change the color to blue
-  const isOld = (id: string) => new Set(data.map((m) => m.id)).has(id);
-
+  const router = useRouter();
   return (
-    <SimpleGrid
-      cols={5}
-      breakpoints={[
-        { minWidth: 'sm', cols: 2, spacing: 'sm' },
-        { minWidth: 'xs', cols: 1, spacing: 'sm' },
-        { minWidth: 'lg', cols: 4, spacing: 'sm' },
-      ]}
-      style={{
-        position: 'relative',
-      }}
+    <Tabs
+      active={tabsMap[router.query.tabs as string]}
+      onTabChange={(i) =>
+        router.push({
+          pathname: router.asPath.split('?')[0],
+          query: { tabs: Object.keys(tabsMap).find((k) => tabsMap[k] === i) },
+        })
+      }
     >
-      <LoadingOverlay visible={isLoading} />
-      <>
-        {allData
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((module) => {
-            return (
-              <ModuleChecker
-                title={module.name}
-                key={module.id}
-                id={module.id}
-                isNew={!isOld(module.id)}
-                checked={!!newModules.find((mod) => mod === module.id)}
-                handleChange={handleChange}
-              />
-            );
-          })}
-      </>
-      <Button onClick={() => mutation.mutate()}>Save</Button>
-    </SimpleGrid>
+      <Tabs.Tab label="General">
+        <>hello</>
+      </Tabs.Tab>
+
+      <Tabs.Tab label="Modules">
+        <Modules />
+      </Tabs.Tab>
+    </Tabs>
   );
 }
 
