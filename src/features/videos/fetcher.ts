@@ -14,7 +14,7 @@ export const getVideos = (accountKey?: string) => ({
 });
 
 export const getVideoById = (videoId: string, accountKey?: string) => ({
-  key: ['video', { videoId, accountKey }],
+  key: ['videos', { videoId, accountKey }],
   query: async () =>
     betterFetch(`${MAIN_API_URL}/videos/${videoId}`, {
       headers: {
@@ -22,6 +22,19 @@ export const getVideoById = (videoId: string, accountKey?: string) => ({
         Accept: 'application/json',
         'x-account-key': accountKey || '',
       },
+    }).then((response) => response.json() as Promise<Video>),
+});
+
+export const updateVideo = (videoId: string, accountKey?: string) => ({
+  mutation: async (video: Partial<Video>) =>
+    betterFetch(`${MAIN_API_URL}/videos/${videoId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'x-account-key': accountKey || '',
+      },
+      body: JSON.stringify(video),
     }).then((response) => response.json() as Promise<Video>),
 });
 

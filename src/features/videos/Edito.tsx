@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import dynamic from 'next/dynamic';
 
 import { Video } from './fetcher';
+import { useMutateVideo } from './hooks';
 
 const RichTextEditor = dynamic(() => import('@mantine/rte'), {
   ssr: false,
@@ -13,16 +14,19 @@ const RichTextEditor = dynamic(() => import('@mantine/rte'), {
 function Edito(data: Video) {
   const form = useForm({
     initialValues: {
-      title: data.name,
+      name: data.name,
       description: data.description,
       fullDescription: data.fullDescription,
       technicalDescription: data.technicalDescription,
     },
   });
 
+  const mutation = useMutateVideo();
+
   const handleSubmit = (values: typeof form.values) => {
     // eslint-disable-next-line no-console
-    console.log(values);
+
+    mutation.mutate(values);
   };
 
   return (
@@ -33,20 +37,19 @@ function Edito(data: Video) {
             required
             label="Title"
             placeholder="Video Title"
-            {...form.getInputProps('title')}
+            {...form.getInputProps('name')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
           <TextInput
-            required
-            label="Description"
-            placeholder="Video Description"
+            label="Short Description"
+            placeholder="Short Description"
             {...form.getInputProps('description')}
           />
         </Grid.Col>
         <Grid.Col span={12}>
           <RichTextEditor
-            placeholder="Video Description"
+            placeholder="Long Description"
             controls={[
               ['bold', 'italic', 'underline', 'link'],
               ['h1', 'h2', 'h3', 'h4', 'alignLeft', 'alignCenter', 'alignRight'],
@@ -63,6 +66,9 @@ function Edito(data: Video) {
             ]}
             {...form.getInputProps('technicalDescription')}
           />
+        </Grid.Col>
+        <Grid.Col span={8} offset={2}>
+          <button type="submit">Save</button>
         </Grid.Col>
       </Grid>
     </form>

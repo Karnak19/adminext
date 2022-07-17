@@ -14,7 +14,7 @@ export const getPlaylists = (accountKey?: string) => ({
 });
 
 export const getPlaylistById = (playlistId: string, accountKey?: string) => ({
-  key: ['playlist', { playlistId, accountKey }],
+  key: ['playlists', { playlistId, accountKey }],
   query: async () =>
     betterFetch(`${MAIN_API_URL}/back-office/playlists/${playlistId}`, {
       headers: {

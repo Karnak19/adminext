@@ -14,7 +14,7 @@ export const getCategories = (accountKey?: string) => ({
 });
 
 export const getCategoryById = (categoryId: string, accountKey?: string) => ({
-  key: ['category', { categoryId, accountKey }],
+  key: ['categories', { categoryId, accountKey }],
   query: async () =>
     betterFetch(`${MAIN_API_URL}/back-office/categories/${categoryId}`, {
       headers: {
