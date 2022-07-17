@@ -12,6 +12,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Category, Home, Playlist, Settings, Users, Video } from 'tabler-icons-react';
 
 import { AccountSelector } from '../features/account';
@@ -64,10 +65,18 @@ const pages = [
 function Layout({ children }: PropsWithChildren<{}>) {
   const [opened, setOpened] = useState(false);
   const { classes } = useStyles();
+  const router = useRouter();
 
   useGetAccountModulesQuery();
 
   const theme = useMantineTheme();
+
+  const isRouteActive = (path: string) => {
+    if (path === '/') {
+      return router.pathname === '/';
+    }
+    return router.pathname.startsWith(path);
+  };
 
   return (
     <AppShell
@@ -82,7 +91,12 @@ function Layout({ children }: PropsWithChildren<{}>) {
             <Stack justify="center" align="stretch">
               {pages.map((page) => (
                 <Link passHref href={page.path} key={page.path}>
-                  <Button leftIcon={page.icon}>{page.name}</Button>
+                  <Button
+                    variant={isRouteActive(page.path) ? 'filled' : 'subtle'}
+                    leftIcon={page.icon}
+                  >
+                    {page.name}
+                  </Button>
                 </Link>
               ))}
             </Stack>
