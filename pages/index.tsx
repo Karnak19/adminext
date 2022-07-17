@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { createStyles, LoadingOverlay, SimpleGrid, useMantineTheme } from '@mantine/core';
-import { Category, Id, Playlist, Users, Video } from 'tabler-icons-react';
+import { Category, Id, Playlist, Tools, Users, Video } from 'tabler-icons-react';
 
 import Stat from '../src/components/home/Stat';
 import { useGetCategoriesQuery } from '../src/features/categories';
 import { useGetFansQuery } from '../src/features/fans';
+import { useGetAccountModulesQuery } from '../src/features/modules';
 import { useGetPlaylistsQuery } from '../src/features/playlists';
 import { useGetVideosQuery } from '../src/features/videos';
 
@@ -41,9 +42,12 @@ export default function Home() {
   const { data: fans, isLoading: isFansLoading } = useGetFansQuery();
   const { data: videos, isLoading: isVideosLoading } = useGetVideosQuery();
   const { data: playlists, isLoading: isPlaylistsLoading } = useGetPlaylistsQuery();
+  const { data: modules, isLoading: isModulesLoading } = useGetAccountModulesQuery();
+
   const { colors } = useMantineTheme();
 
-  const isLoading = isCatLoading || isFansLoading || isVideosLoading || isPlaylistsLoading;
+  const isLoading =
+    isCatLoading || isFansLoading || isVideosLoading || isPlaylistsLoading || isModulesLoading;
 
   const data = useMemo(() => {
     return [
@@ -76,6 +80,12 @@ export default function Home() {
         icon: <Id color={colors.blue[0]} />,
         value: 0,
         path: '/profiles',
+      },
+      {
+        title: 'Modules',
+        icon: <Tools color={colors.blue[0]} />,
+        value: modules?.length || 0,
+        path: '/settings?tabs=modules',
       },
     ];
   }, [categories, fans, videos]);
