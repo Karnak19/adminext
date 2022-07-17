@@ -12,10 +12,11 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Link from 'next/link';
-import { Category, Home, Playlist, Users, Video } from 'tabler-icons-react';
+import { Category, Home, Playlist, Settings, Users, Video } from 'tabler-icons-react';
 
 import { AccountSelector } from '../features/account';
 import UserMenu from '../features/auth/UserMenu';
+import { useGetAccountModulesQuery } from '../features/modules';
 import ThemeToggler from './ThemeToggler';
 
 const useStyles = createStyles(() => ({
@@ -52,12 +53,19 @@ const pages = [
     path: '/fans',
     icon: <Users />,
   },
+  {
+    name: 'Settings',
+    path: '/settings',
+    icon: <Settings />,
+  },
 ];
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function Layout({ children }: PropsWithChildren<{}>) {
   const [opened, setOpened] = useState(false);
   const { classes } = useStyles();
+
+  useGetAccountModulesQuery();
 
   const theme = useMantineTheme();
 

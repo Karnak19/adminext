@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, createStyles, Group, Paper, PasswordInput, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-import { setOpacity } from '../../app/setOpacity';
 import useLoginMutation from './useLoginMutation';
 
 const useStyles = createStyles((theme) => ({
@@ -21,7 +20,7 @@ const useStyles = createStyles((theme) => ({
   form: {
     width: 'min(100%, 450px)',
     padding: '2rem 4rem',
-    backgroundColor: setOpacity(
+    backgroundColor: theme.fn.rgba(
       theme.colorScheme === 'dark' ? theme.colors.dark[9] : 'ffffff',
       0.2,
     ),
