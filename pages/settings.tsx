@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 
-import Modules from '../src/components/settings/Modules';
+import { Modules } from '../src/features/modules';
 
 const tabsMap: {
   [key: string]: number;

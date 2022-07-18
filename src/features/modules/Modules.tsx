@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid, LoadingOverlay } from '@mantine/core';
 
-import { useGetModulesCombinedQuery } from '../../features/modules';
+import { useGetModulesCombinedQuery } from '.';
 import ModuleChecker from './ModuleChecker';
 
 function Modules() {
