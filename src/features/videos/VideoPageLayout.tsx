@@ -1,25 +1,30 @@
 import React from 'react';
 import { Grid, LoadingOverlay } from '@mantine/core';
+import { VideoPlus } from 'tabler-icons-react';
 
+import FormDrawer from '../../components/FormDrawer';
 import { useGetVideosQuery, VideosList } from '.';
 
 function VideoPageLayout({ children }: { children: React.ReactNode }) {
   const { isLoading } = useGetVideosQuery();
 
   return (
-    <Grid
-      style={{
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-      }}
-    >
-      <LoadingOverlay visible={isLoading} />
-      <Grid.Col span={3}>
-        <VideosList />
-      </Grid.Col>
-      <Grid.Col span={9}>{children}</Grid.Col>
-    </Grid>
+    <>
+      <Grid
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+        }}
+      >
+        <LoadingOverlay visible={isLoading} />
+        <FormDrawer icon={<VideoPlus />} />
+        <Grid.Col span={3}>
+          <VideosList />
+        </Grid.Col>
+        <Grid.Col span={9}>{children}</Grid.Col>
+      </Grid>
+    </>
   );
 }
 

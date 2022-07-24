@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, createStyles, Group, Paper, PasswordInput, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { AlertTriangle } from 'tabler-icons-react';
 
 import useLoginMutation from './useLoginMutation';
 
@@ -69,15 +70,24 @@ function LoginForm() {
             label="Username"
             placeholder="who are you"
             {...form.getInputProps('email')}
+            error={login.isError}
           />
           <PasswordInput
             required
             label="Password"
             placeholder="********"
             {...form.getInputProps('password')}
+            error={login.isError && 'username or password invalid'}
           />
           <Group position="right" mt="md">
-            <Button loading={login.isLoading} type="submit">
+            <Button
+              loading={login.isLoading}
+              type="submit"
+              {...(login.isError && {
+                leftIcon: <AlertTriangle />,
+                color: 'red',
+              })}
+            >
               Submit
             </Button>
           </Group>

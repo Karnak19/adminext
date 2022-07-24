@@ -11,6 +11,11 @@ function AccountSelector() {
 
   const selectedAccount = useStore((state) => state.account);
   const select = useStore((state) => state.selectAccount);
+  const role = useStore((state) => state.role);
+
+  if (role !== 'admin') {
+    return null;
+  }
 
   return (
     <Autocomplete

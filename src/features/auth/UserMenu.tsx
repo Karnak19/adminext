@@ -5,6 +5,7 @@ import { removeCookies } from 'cookies-next';
 import { ChevronRight, Logout } from 'tabler-icons-react';
 
 import { ACCESS_TOKEN_KEY } from '../../app/getToken';
+import { useStore } from '../../app/store';
 import { useMeQuery } from '.';
 
 // eslint-disable-next-line react/display-name
@@ -54,11 +55,13 @@ const ControlButton = forwardRef<HTMLButtonElement>((props, ref) => {
 
 function UserMenu() {
   const queryClient = useQueryClient();
+  const resetStore = useStore((store) => store.reset);
 
   const logout = () => {
     removeCookies(ACCESS_TOKEN_KEY);
     queryClient.invalidateQueries(['me']);
     queryClient.invalidateQueries(['context']);
+    resetStore();
   };
 
   return (
