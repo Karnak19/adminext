@@ -56,7 +56,7 @@ const pages = [
   },
   {
     name: 'Settings',
-    path: '/settings',
+    path: '/settings?tabs=general',
     icon: <Settings />,
   },
 ];

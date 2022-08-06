@@ -32,7 +32,7 @@ function PlaylistsList({ playlists }: { playlists?: TPlaylist[] }) {
           cursor: 'pointer',
         }}
         key={item.id}
-        onClick={() => router.push(`/playlists/${item.id}`)}
+        onClick={() => router.push(`/playlists/${item.id}?tabs=general`)}
         className={isSelected(item.id) ? classes.root : undefined}
       >
         <td>
@@ -49,7 +49,7 @@ function PlaylistsList({ playlists }: { playlists?: TPlaylist[] }) {
         cursor: 'pointer',
       }}
       key={playlist.id}
-      onClick={() => router.push(`/playlists/${playlist.id}`)}
+      onClick={() => router.push(`/playlists/${playlist.id}?tabs=general`)}
       className={isSelected(playlist.id) ? classes.root : undefined}
     >
       <td>

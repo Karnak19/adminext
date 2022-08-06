@@ -29,6 +29,7 @@ function AccountSelector() {
         accountKey: account.key,
       }))}
       dropdownPosition="top"
+      limit={15}
       disabled={isLoading}
       onItemSubmit={(value) => {
         select({

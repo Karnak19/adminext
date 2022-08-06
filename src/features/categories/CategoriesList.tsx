@@ -30,7 +30,7 @@ function CategoriesList() {
           cursor: 'pointer',
         }}
         key={item.id}
-        onClick={() => router.push(`/categories/${item.id}`)}
+        onClick={() => router.push(`/categories/${item.id}?tabs=display`)}
         className={isSelected(item.id) ? classes.root : undefined}
       >
         <td>
@@ -47,7 +47,7 @@ function CategoriesList() {
         cursor: 'pointer',
       }}
       key={item.id}
-      onClick={() => router.push(`/categories/${item.id}`)}
+      onClick={() => router.push(`/categories/${item.id}?tabs=display`)}
       className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>

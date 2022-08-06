@@ -18,8 +18,8 @@ function VideoPageLayout({ children }: { children: React.ReactNode }) {
         }}
       >
         <LoadingOverlay visible={isLoading} />
-        <FormDrawer icon={<VideoPlus />} />
         <Grid.Col span={3}>
+          <FormDrawer icon={<VideoPlus />} />
           <VideosList />
         </Grid.Col>
         <Grid.Col span={9}>{children}</Grid.Col>

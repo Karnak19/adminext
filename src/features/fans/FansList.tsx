@@ -32,7 +32,7 @@ function VideosList() {
               cursor: 'pointer',
             }}
             key={item.id}
-            onClick={() => router.push(`/fans/${item.id}`)}
+            onClick={() => router.push(`/fans/${item.id}?tabs=general`)}
             className={isSelected(item.id) ? classes.root : undefined}
           >
             <td>{item.username}</td>
@@ -49,14 +49,11 @@ function VideosList() {
         cursor: 'pointer',
       }}
       key={item.id}
-      onClick={() => router.push(`/fans/${item.id}`)}
+      onClick={() => router.push(`/fans/${item.id}?tabs=general`)}
       className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>
-        <Avatar color="blue" src={`${item.imageUrl}`} alt={item.username}>
-          {item.firstname?.[0]}
-          {item.lastname?.[0]}
-        </Avatar>
+        <Avatar color="blue" src={`${item.imageUrl}`} alt={item.username} />
       </td>
       <td>{item.username}</td>
       <td>{item.email}</td>

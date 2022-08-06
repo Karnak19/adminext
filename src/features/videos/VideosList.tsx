@@ -33,7 +33,7 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
               cursor: 'pointer',
             }}
             key={item.id}
-            onClick={() => router.push(`/videos/${item.id}`)}
+            onClick={() => router.push(`/videos/${item.id}?tabs=general`)}
             className={isSelected(item.id) ? classes.root : undefined}
           >
             <td>
@@ -54,7 +54,7 @@ function VideosList({ videos }: { videos?: TVideo[] }) {
         cursor: 'pointer',
       }}
       key={item.id}
-      onClick={() => router.push(`/videos/${item.id}`)}
+      onClick={() => router.push(`/videos/${item.id}?tabs=general`)}
       className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>

@@ -6,12 +6,11 @@ import { Display, Edito, useGetVideoByIdQuery, VideoPageLayout } from '../../src
 import Links from '../../src/features/videos/Links';
 
 const tabsMap: {
-  [key: string]: number;
+  [key: string]: string;
 } = {
-  display: 0,
-  edito: 1,
-  links: 2,
-  player: 3,
+  display: 'display',
+  edito: 'edito',
+  links: 'links',
 };
 
 function VideoId() {
@@ -28,7 +27,7 @@ function VideoId() {
         <LoadingOverlay visible={isLoading} />
         {data && (
           <Tabs
-            active={tabsMap[router.query.tabs as string]}
+            value={tabsMap[router.query.tabs as string]}
             onTabChange={(i) =>
               router.push({
                 pathname: router.asPath.split('?')[0],
@@ -36,20 +35,27 @@ function VideoId() {
               })
             }
           >
-            <Tabs.Tab label="Display">
+            <Tabs.List>
+              {Object.values(tabsMap).map((tab) => (
+                <Tabs.Tab value={tab} key={tab}>
+                  {tab.toUpperCase()}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+            <Tabs.Panel value="display">
               <Display {...data} />
-            </Tabs.Tab>
-            <Tabs.Tab label="Edito">
+            </Tabs.Panel>
+            <Tabs.Panel value="edito">
               <Edito {...data} />
-            </Tabs.Tab>
-            <Tabs.Tab label="Links">
+            </Tabs.Panel>
+            <Tabs.Panel value="links">
               <Links {...data} />
-            </Tabs.Tab>
-            <Tabs.Tab label="Player">
+            </Tabs.Panel>
+            <Tabs.Panel value="player">
               <Player
               // videoId={data.id} url={data.url}
               />
-            </Tabs.Tab>
+            </Tabs.Panel>
           </Tabs>
         )}
       </div>

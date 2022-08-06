@@ -7,6 +7,7 @@ import { useGetCategoriesQuery } from '../src/features/categories';
 import { useGetFansQuery } from '../src/features/fans';
 import { useGetAccountModulesQuery } from '../src/features/modules';
 import { useGetPlaylistsQuery } from '../src/features/playlists';
+import { useGetProfilesQuery } from '../src/features/profiles';
 import { useGetVideosQuery } from '../src/features/videos';
 
 const useStyles = createStyles((theme) => ({
@@ -43,11 +44,17 @@ export default function Home() {
   const { data: videos, isLoading: isVideosLoading } = useGetVideosQuery();
   const { data: playlists, isLoading: isPlaylistsLoading } = useGetPlaylistsQuery();
   const { data: modules, isLoading: isModulesLoading } = useGetAccountModulesQuery();
+  const { isLoading: isProfilesLoading } = useGetProfilesQuery();
 
   const { colors } = useMantineTheme();
 
   const isLoading =
-    isCatLoading || isFansLoading || isVideosLoading || isPlaylistsLoading || isModulesLoading;
+    isCatLoading ||
+    isFansLoading ||
+    isVideosLoading ||
+    isPlaylistsLoading ||
+    isModulesLoading ||
+    isProfilesLoading;
 
   const data = useMemo(() => {
     return [

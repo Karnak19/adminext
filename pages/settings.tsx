@@ -5,17 +5,17 @@ import { useRouter } from 'next/router';
 import { Modules } from '../src/features/modules';
 
 const tabsMap: {
-  [key: string]: number;
+  [key: string]: string;
 } = {
-  general: 0,
-  modules: 1,
+  general: 'general',
+  modules: 'modules',
 };
 
 function Settings() {
   const router = useRouter();
   return (
     <Tabs
-      active={tabsMap[router.query.tabs as string]}
+      value={tabsMap[router.query.tabs as string]}
       onTabChange={(i) =>
         router.push({
           pathname: router.asPath.split('?')[0],
@@ -23,13 +23,20 @@ function Settings() {
         })
       }
     >
-      <Tabs.Tab label="General">
+      <Tabs.List>
+        {Object.values(tabsMap).map((tab) => (
+          <Tabs.Tab value={tab} key={tab}>
+            {tab.toUpperCase()}
+          </Tabs.Tab>
+        ))}
+      </Tabs.List>
+      <Tabs.Panel value="general">
         <>hello</>
-      </Tabs.Tab>
+      </Tabs.Panel>
 
-      <Tabs.Tab label="Modules">
+      <Tabs.Panel value="modules">
         <Modules />
-      </Tabs.Tab>
+      </Tabs.Panel>
     </Tabs>
   );
 }

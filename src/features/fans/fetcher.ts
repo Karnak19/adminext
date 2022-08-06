@@ -1,5 +1,6 @@
 import { betterFetch } from '../../app/betterFetch';
 import { USERS_SERVICE_URL } from '../../app/constants';
+import { Profile } from '../profiles/fetcher';
 
 interface Sso {
   providerId: string;
@@ -34,6 +35,10 @@ export interface Fan {
   AccountId: string;
 }
 
+export interface FanWithProfiles extends Fan {
+  Profiles: Profile[];
+}
+
 export const getFans = (accountKey: string | undefined) => ({
   key: ['fans', { accountKey }],
   query: async () =>
@@ -49,11 +54,11 @@ export const getFans = (accountKey: string | undefined) => ({
 export const getFanById = (fanId: string, accountKey: string | undefined) => ({
   key: ['fans', { accountKey, fanId }],
   query: async () =>
-    betterFetch(`${USERS_SERVICE_URL}/fans/${fanId}`, {
+    betterFetch(`${USERS_SERVICE_URL}/fans/${fanId}?expand=[Profile]`, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         'x-account-key': accountKey || '',
       },
-    }).then((response) => response.json() as Promise<Fan[]>),
+    }).then((response) => response.json() as Promise<FanWithProfiles>),
 });

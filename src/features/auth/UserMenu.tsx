@@ -66,12 +66,17 @@ function UserMenu() {
 
   return (
     <Group position="center">
-      <Menu withArrow placement="center" control={<ControlButton />}>
-        <Menu.Item icon={<Logout />} onClick={logout}>
-          <Text size="sm" weight={500}>
-            Logout
-          </Text>
-        </Menu.Item>
+      <Menu withArrow position="bottom">
+        <Menu.Target>
+          <ControlButton />
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item icon={<Logout />} onClick={logout}>
+            <Text size="sm" weight={500}>
+              Logout
+            </Text>
+          </Menu.Item>
+        </Menu.Dropdown>
       </Menu>
     </Group>
   );
