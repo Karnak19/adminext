@@ -1,11 +1,27 @@
 import React, { useEffect } from 'react';
-import { Button, Grid, LoadingOverlay, MultiSelect, Select, TextInput } from '@mantine/core';
+import {
+  Button,
+  createStyles,
+  Grid,
+  LoadingOverlay,
+  MultiSelect,
+  Select,
+  TextInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 import { useGetProfilesQuery, useMutateFanProfiles } from '../profiles';
 import { FanWithProfiles } from './fetcher';
 
+const useProfilesStyles = createStyles((theme) => ({
+  value: {
+    backgroundColor: theme.colors.lime[7],
+    color: theme.colors.gray[0],
+  },
+}));
+
 function Edit(props: FanWithProfiles) {
+  const { classes } = useProfilesStyles();
   const form = useForm({
     initialValues: {
       firstname: props.firstname,
@@ -80,6 +96,8 @@ function Edit(props: FanWithProfiles) {
 
         <Grid.Col span={12}>
           <MultiSelect
+            classNames={classes}
+            size="lg"
             data={profiles.map((cat) => ({
               value: cat.id,
               label: cat.name,
