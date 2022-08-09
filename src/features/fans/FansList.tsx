@@ -17,7 +17,7 @@ function VideosList() {
   const fuse = useMemo(
     () =>
       new Fuse(data || [], {
-        keys: ['username', 'email'],
+        keys: ['email'],
         minMatchCharLength: 2,
       }),
     [data],
@@ -35,7 +35,6 @@ function VideosList() {
             onClick={() => router.push(`/fans/${item.id}?tabs=general`)}
             className={isSelected(item.id) ? classes.root : undefined}
           >
-            <td>{item.username}</td>
             <td>{item.email}</td>
           </tr>
         );
@@ -55,7 +54,6 @@ function VideosList() {
       <td>
         <Avatar color="blue" src={`${item.imageUrl}`} alt={item.username} />
       </td>
-      <td>{item.username}</td>
       <td>{item.email}</td>
     </tr>
   ));
@@ -75,7 +73,6 @@ function VideosList() {
         <thead>
           <tr>
             <th>Avatar</th>
-            <th>Username</th>
             <th>Email</th>
           </tr>
         </thead>
