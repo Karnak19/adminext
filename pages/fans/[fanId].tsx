@@ -1,9 +1,10 @@
 import React from 'react';
-import { LoadingOverlay, Tabs } from '@mantine/core';
+import { Button, LoadingOverlay, Tabs } from '@mantine/core';
 import { useRouter } from 'next/router';
 
-import { FanPageLayout, useGetFanByIdQuery } from '../../src/features/fans';
+import { FanPageLayout, useGetFanByIdQuery, useGetFanProductsQuery } from '../../src/features/fans';
 import Edit from '../../src/features/fans/Edit';
+import FanProducts from '../../src/features/fans/FanProducts';
 
 const tabsMap: {
   [key: string]: string;
@@ -14,12 +15,16 @@ const tabsMap: {
 
 function FanId() {
   const router = useRouter();
-  const { isLoading, data } = useGetFanByIdQuery();
+  const { isLoading, data, refetch, isRefetching } = useGetFanByIdQuery();
+  const { data: fanProducts, refetch: refetchProducts } = useGetFanProductsQuery();
+
+  const bulkRefetch = () => {
+    refetch();
+    refetchProducts();
+  };
 
   return (
     <FanPageLayout>
-      <LoadingOverlay visible={isLoading} />
-
       {data && (
         <Tabs
           value={tabsMap[router.query.tabs as string]}
@@ -30,6 +35,9 @@ function FanId() {
             })
           }
         >
+          <Button color="yellow" onClick={bulkRefetch}>
+            Refresh fan
+          </Button>
           <Tabs.List>
             {Object.values(tabsMap).map((tab) => (
               <Tabs.Tab value={tab} key={tab}>
@@ -37,12 +45,22 @@ function FanId() {
               </Tabs.Tab>
             ))}
           </Tabs.List>
-          <Tabs.Panel value="general">
-            <Edit {...data} />
-          </Tabs.Panel>
-          <Tabs.Panel value="profiles">
-            <pre>{JSON.stringify(data.Profiles, null, 2)}</pre>
-          </Tabs.Panel>
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+            }}
+          >
+            <LoadingOverlay visible={isLoading || isRefetching} />
+            <Tabs.Panel value="general">
+              <Edit {...data} />
+              <FanProducts products={fanProducts?.items || []} />
+            </Tabs.Panel>
+            <Tabs.Panel value="profiles">
+              <pre>{JSON.stringify(data.Profiles, null, 2)}</pre>
+            </Tabs.Panel>
+          </div>
         </Tabs>
       )}
     </FanPageLayout>

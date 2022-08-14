@@ -113,9 +113,6 @@ function Edit(props: FanWithProfiles) {
         <Grid.Col>
           <Button type="submit">Update</Button>
         </Grid.Col>
-        <Grid.Col span={6}>
-          <pre>{JSON.stringify(form.values, null, 2)}</pre>
-        </Grid.Col>
       </Grid>
     </form>
   );

@@ -33,7 +33,12 @@ const ControlButton = forwardRef<HTMLButtonElement>((props, ref) => {
     >
       <Group>
         <Avatar src={null} color="blue" radius="xl" alt={me.data.firstName}>
-          {me.data.firstName[0]}
+          {(
+            me.data.firstName?.[0] ||
+            me.data.username?.[0] ||
+            me.data.email?.[0] ||
+            'X'
+          ).toUpperCase()}
         </Avatar>
         <MediaQuery smallerThan="lg" styles={{ display: 'none' }}>
           <div style={{ flex: 1 }}>

@@ -8,7 +8,7 @@ import Links from '../../src/features/videos/Links';
 const tabsMap: {
   [key: string]: string;
 } = {
-  display: 'display',
+  general: 'general',
   edito: 'edito',
   links: 'links',
 };
@@ -42,7 +42,7 @@ function VideoId() {
                 </Tabs.Tab>
               ))}
             </Tabs.List>
-            <Tabs.Panel value="display">
+            <Tabs.Panel value="general">
               <Display {...data} />
             </Tabs.Panel>
             <Tabs.Panel value="edito">
