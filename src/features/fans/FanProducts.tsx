@@ -1,29 +1,13 @@
 import React from 'react';
-import { Badge, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
 
+import ProviderBadge from '../../components/ProviderBadge';
+import StatusBadge from '../../components/StatusBadge';
 import { FanProduct } from './fetcher';
 
 const cols = ['Product', 'Provider', 'Start Date', 'Type', 'Status'];
 
 function FanProducts({ products }: { products: FanProduct[] }) {
-  const providerColor = (provider: string) => {
-    switch (provider) {
-      case 'stripe':
-        return 'grape';
-      default:
-        return 'blue';
-    }
-  };
-
-  const statusColor = (status: string) => {
-    switch (status) {
-      case 'active':
-        return 'green';
-      default:
-        return 'blue';
-    }
-  };
-
   return (
     <div style={{ paddingTop: '3rem' }}>
       <Table>
@@ -38,11 +22,7 @@ function FanProducts({ products }: { products: FanProduct[] }) {
           {products.map((product) => (
             <tr key={product.productId}>
               <td>{product.data.productName}</td>
-              <td>
-                {product.provider && (
-                  <Badge color={providerColor(product.provider)}>{product.provider}</Badge>
-                )}
-              </td>
+              <td>{product.provider && <ProviderBadge provider={product.provider} />}</td>
               <td>
                 {product.data.subscription
                   ? new Date(product.data.subscription.startDate * 1000).toLocaleDateString()
@@ -50,7 +30,7 @@ function FanProducts({ products }: { products: FanProduct[] }) {
               </td>
               <td>{product.data.subscription ? 'Subscription' : ''}</td>
               <td>
-                <Badge color={statusColor(product.status)}>{product.status}</Badge>
+                <StatusBadge status={product.status} />
               </td>
             </tr>
           ))}

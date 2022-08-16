@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Player from '../../src/components/Player';
 import { Display, Edito, useGetVideoByIdQuery, VideoPageLayout } from '../../src/features/videos';
 import Links from '../../src/features/videos/Links';
+import useEscapeKey from '../../src/hooks/useEscapeKey';
 
 const tabsMap: {
   [key: string]: string;
@@ -14,34 +15,39 @@ const tabsMap: {
 };
 
 function VideoId() {
-  const { data, isLoading } = useGetVideoByIdQuery();
+  const { data, isLoading, isRefetching } = useGetVideoByIdQuery();
   const router = useRouter();
+
+  useEscapeKey('/videos');
 
   return (
     <VideoPageLayout>
-      <div
-        style={{
-          position: 'relative',
-        }}
-      >
-        <LoadingOverlay visible={isLoading} />
-        {data && (
-          <Tabs
-            value={tabsMap[router.query.tabs as string]}
-            onTabChange={(i) =>
-              router.push({
-                pathname: router.asPath.split('?')[0],
-                query: { tabs: Object.keys(tabsMap).find((k) => tabsMap[k] === i) },
-              })
-            }
+      {data && (
+        <Tabs
+          value={tabsMap[router.query.tabs as string]}
+          onTabChange={(i) =>
+            router.push({
+              pathname: router.asPath.split('?')[0],
+              query: { tabs: Object.keys(tabsMap).find((k) => tabsMap[k] === i) },
+            })
+          }
+        >
+          <Tabs.List>
+            {Object.values(tabsMap).map((tab) => (
+              <Tabs.Tab value={tab} key={tab}>
+                {tab.toUpperCase()}
+              </Tabs.Tab>
+            ))}
+          </Tabs.List>
+          <div
+            style={{
+              width: '100%',
+              minHeight: '100vh',
+              height: '100%',
+              position: 'relative',
+            }}
           >
-            <Tabs.List>
-              {Object.values(tabsMap).map((tab) => (
-                <Tabs.Tab value={tab} key={tab}>
-                  {tab.toUpperCase()}
-                </Tabs.Tab>
-              ))}
-            </Tabs.List>
+            <LoadingOverlay visible={isLoading || isRefetching} />
             <Tabs.Panel value="general">
               <Display {...data} />
             </Tabs.Panel>
@@ -56,9 +62,9 @@ function VideoId() {
               // videoId={data.id} url={data.url}
               />
             </Tabs.Panel>
-          </Tabs>
-        )}
-      </div>
+          </div>
+        </Tabs>
+      )}
     </VideoPageLayout>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, LoadingOverlay } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { VideoPlus } from 'tabler-icons-react';
 
 import FormDrawer from '../../components/FormDrawer';
@@ -7,6 +8,9 @@ import { useGetVideosQuery, VideosList } from '.';
 
 function VideoPageLayout({ children }: { children: React.ReactNode }) {
   const { isLoading } = useGetVideosQuery();
+  const router = useRouter();
+
+  const isRoot = router.pathname === '/videos';
 
   return (
     <>
@@ -18,7 +22,7 @@ function VideoPageLayout({ children }: { children: React.ReactNode }) {
         }}
       >
         <LoadingOverlay visible={isLoading} />
-        <Grid.Col span={3}>
+        <Grid.Col span={isRoot ? 12 : 3}>
           <FormDrawer icon={<VideoPlus />} />
           <VideosList />
         </Grid.Col>

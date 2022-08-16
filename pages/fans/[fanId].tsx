@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { FanPageLayout, useGetFanByIdQuery, useGetFanProductsQuery } from '../../src/features/fans';
 import Edit from '../../src/features/fans/Edit';
 import FanProducts from '../../src/features/fans/FanProducts';
+import useEscapeKey from '../../src/hooks/useEscapeKey';
 
 const tabsMap: {
   [key: string]: string;
@@ -17,6 +18,8 @@ function FanId() {
   const router = useRouter();
   const { isLoading, data, refetch, isRefetching } = useGetFanByIdQuery();
   const { data: fanProducts, refetch: refetchProducts } = useGetFanProductsQuery();
+
+  useEscapeKey('/fans');
 
   const bulkRefetch = () => {
     refetch();
@@ -48,6 +51,7 @@ function FanId() {
           <div
             style={{
               width: '100%',
+              minHeight: '100vh',
               height: '100%',
               position: 'relative',
             }}
