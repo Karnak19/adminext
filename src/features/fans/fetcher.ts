@@ -1,6 +1,6 @@
 import { betterFetch } from '../../app/betterFetch';
 import { PAYMENT_SERVICE_URL, USERS_SERVICE_URL } from '../../app/constants';
-import { Profile } from '../profiles/fetcher';
+import { Profile } from '../profilesAndProducts/fetcher';
 
 interface Sso {
   providerId: string;

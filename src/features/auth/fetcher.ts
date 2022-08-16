@@ -1,5 +1,6 @@
 import { betterFetch } from '../../app/betterFetch';
-import { USERS_SERVICE_URL } from '../../app/constants';
+import { MAIN_API_URL, USERS_SERVICE_URL } from '../../app/constants';
+import { AdminPayload } from './AdminPayload';
 
 export const login = (username: string, password: string) => ({
   query: async () => {
@@ -30,6 +31,14 @@ export const getMeContext = () => ({
   query: async () =>
     betterFetch(`${USERS_SERVICE_URL}/users/me/context`).then(
       (response) => response.json() as Promise<Context>,
+    ),
+});
+
+export const getAdminPayload = () => ({
+  key: ['adminPayload'],
+  query: async () =>
+    betterFetch(`${MAIN_API_URL}/common/admin-payload`).then(
+      (response) => response.json() as Promise<AdminPayload>,
     ),
 });
 

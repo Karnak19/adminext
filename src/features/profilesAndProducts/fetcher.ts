@@ -1,6 +1,7 @@
 import { betterFetch } from '../../app/betterFetch';
-import { USERS_SERVICE_URL } from '../../app/constants';
+import { PAYMENT_SERVICE_URL, USERS_SERVICE_URL } from '../../app/constants';
 import { FanWithProfiles } from '../fans/fetcher';
+import { Products } from './Products';
 
 export const getProfiles = (accountKey: string | undefined) => ({
   key: ['profiles', { accountKey }],
@@ -12,6 +13,18 @@ export const getProfiles = (accountKey: string | undefined) => ({
         'x-account-key': accountKey || '',
       },
     }).then((response) => response.json() as Promise<Profile[]>),
+});
+
+export const getProducts = (accountKey: string | undefined) => ({
+  key: ['products', { accountKey }],
+  query: async () =>
+    betterFetch(`${PAYMENT_SERVICE_URL}/back-office/products`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'x-account-key': accountKey || '',
+      },
+    }).then((res) => res.json() as Promise<Products>),
 });
 
 export const mutateFanProfiles = (

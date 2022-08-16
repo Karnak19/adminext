@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { createStyles, LoadingOverlay, SimpleGrid, useMantineTheme } from '@mantine/core';
-import { Category, Id, Playlist, Tools, Users, Video } from 'tabler-icons-react';
+import { Category, Id, Playlist, ShoppingCart, Tools, Users, Video } from 'tabler-icons-react';
 
 import Stat from '../src/components/home/Stat';
 import { useGetCategoriesQuery } from '../src/features/categories';
 import { useGetFansQuery } from '../src/features/fans';
 import { useGetAccountModulesQuery } from '../src/features/modules';
 import { useGetPlaylistsQuery } from '../src/features/playlists';
-import { useGetProfilesQuery } from '../src/features/profiles';
+import { useGetProductsQuery, useGetProfilesQuery } from '../src/features/profilesAndProducts';
 import { useGetVideosQuery } from '../src/features/videos';
 
 const useStyles = createStyles((theme) => ({
@@ -44,7 +44,8 @@ export default function Home() {
   const { data: videos, isLoading: isVideosLoading } = useGetVideosQuery();
   const { data: playlists, isLoading: isPlaylistsLoading } = useGetPlaylistsQuery();
   const { data: modules, isLoading: isModulesLoading } = useGetAccountModulesQuery();
-  const { isLoading: isProfilesLoading } = useGetProfilesQuery();
+  const { data: profiles, isLoading: isProfilesLoading } = useGetProfilesQuery();
+  const { data: products, isLoading: isProductsLoading } = useGetProductsQuery();
 
   const { colors } = useMantineTheme();
 
@@ -54,43 +55,52 @@ export default function Home() {
     isVideosLoading ||
     isPlaylistsLoading ||
     isModulesLoading ||
-    isProfilesLoading;
+    isProfilesLoading ||
+    isProductsLoading;
 
   const data = useMemo(() => {
+    const color = colors.blue[0];
+
     return [
       {
         title: 'Categories',
-        icon: <Category color={colors.blue[0]} />,
+        icon: <Category color={color} />,
         value: categories?.length || 0,
         path: '/categories',
       },
       {
         title: 'Fans',
-        icon: <Users color={colors.blue[0]} />,
+        icon: <Users color={color} />,
         value: fans?.length || 0,
         path: '/fans',
       },
       {
         title: 'Videos',
-        icon: <Video color={colors.blue[0]} />,
+        icon: <Video color={color} />,
         value: videos?.length || 0,
         path: '/videos',
       },
       {
         title: 'Playlists',
-        icon: <Playlist color={colors.blue[0]} />,
+        icon: <Playlist color={color} />,
         value: playlists?.length || 0,
         path: '/playlists',
       },
       {
         title: 'Profiles',
-        icon: <Id color={colors.blue[0]} />,
-        value: 0,
+        icon: <Id color={color} />,
+        value: profiles?.length || 0,
         path: '/profiles',
       },
       {
+        title: 'Products',
+        icon: <ShoppingCart color={color} />,
+        value: products?.items.length || 0,
+        path: '/products',
+      },
+      {
         title: 'Modules',
-        icon: <Tools color={colors.blue[0]} />,
+        icon: <Tools color={color} />,
         value: modules?.length || 0,
         path: '/settings?tabs=modules',
       },

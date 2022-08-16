@@ -15,10 +15,10 @@ function FanPageLayout({ children }: { children: React.ReactNode }) {
       }}
     >
       <LoadingOverlay visible={isLoading} />
-      <Grid.Col span={5}>
+      <Grid.Col span={4}>
         <FansList />
       </Grid.Col>
-      <Grid.Col span={7}>{children}</Grid.Col>
+      <Grid.Col span={8}>{children}</Grid.Col>
     </Grid>
   );
 }

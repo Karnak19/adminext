@@ -10,7 +10,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-import { useGetProfilesQuery, useMutateFanProfiles } from '../profiles';
+import { useGetProfilesQuery, useMutateFanProfiles } from '../profilesAndProducts';
 import { FanWithProfiles } from './fetcher';
 
 const useProfilesStyles = createStyles((theme) => ({

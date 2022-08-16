@@ -13,8 +13,9 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Category, Home, Playlist, Settings, Users, Video } from 'tabler-icons-react';
+import { Category, Home, Playlist, Settings, ShoppingCart, Users, Video } from 'tabler-icons-react';
 
+import { useStore } from '../app/store';
 import { AccountSelector } from '../features/account';
 import UserMenu from '../features/auth/UserMenu';
 import { useGetAccountModulesQuery } from '../features/modules';
@@ -55,9 +56,15 @@ const pages = [
     icon: <Users />,
   },
   {
+    name: 'Products',
+    path: '/products',
+    icon: <ShoppingCart />,
+  },
+  {
     name: 'Settings',
     path: '/settings?tabs=general',
     icon: <Settings />,
+    admin: true,
   },
 ];
 
@@ -66,6 +73,8 @@ function Layout({ children }: PropsWithChildren<{}>) {
   const [opened, setOpened] = useState(false);
   const { classes } = useStyles();
   const router = useRouter();
+
+  const role = useStore((state) => state.role);
 
   useGetAccountModulesQuery();
 
@@ -89,16 +98,23 @@ function Layout({ children }: PropsWithChildren<{}>) {
         <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 230 }}>
           <Navbar.Section grow mt="md">
             <Stack justify="center" align="stretch">
-              {pages.map((page) => (
-                <Link passHref href={page.path} key={page.path}>
-                  <Button
-                    variant={isRouteActive(page.path) ? 'filled' : 'subtle'}
-                    leftIcon={page.icon}
-                  >
-                    {page.name}
-                  </Button>
-                </Link>
-              ))}
+              {pages
+                .filter((p) => {
+                  if (p.admin) {
+                    return role === 'admin';
+                  }
+                  return true;
+                })
+                .map((page) => (
+                  <Link passHref href={page.path} key={page.path}>
+                    <Button
+                      variant={isRouteActive(page.path) ? 'filled' : 'subtle'}
+                      leftIcon={page.icon}
+                    >
+                      {page.name}
+                    </Button>
+                  </Link>
+                ))}
             </Stack>
           </Navbar.Section>
           <Navbar.Section>

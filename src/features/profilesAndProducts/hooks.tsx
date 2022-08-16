@@ -3,12 +3,22 @@ import { showNotification } from '@mantine/notifications';
 import { CircleCheck } from 'tabler-icons-react';
 
 import { useStore } from '../../app/store';
-import { getProfiles, mutateFanProfiles } from './fetcher';
+import { getProducts, getProfiles, mutateFanProfiles } from './fetcher';
 
 export const useGetProfilesQuery = () => {
   const accountKey = useStore((state) => state.account?.key);
 
   const { key, query } = getProfiles(accountKey);
+
+  return useQuery(key, query, {
+    enabled: !!accountKey,
+  });
+};
+
+export const useGetProductsQuery = () => {
+  const accountKey = useStore((state) => state.account?.key);
+
+  const { key, query } = getProducts(accountKey);
 
   return useQuery(key, query, {
     enabled: !!accountKey,
@@ -23,6 +33,7 @@ export const useMutateFanProfiles = () => {
   return useMutation(mutateFanProfiles(accountKey, accountId).mutation, {
     onSuccess: () => {
       queryClient.invalidateQueries('fans');
+      queryClient.invalidateQueries('fanProducts');
 
       showNotification({
         message: 'Successfully update fan profiles',
