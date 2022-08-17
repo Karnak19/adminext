@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { Avatar, Stack, Table, TextInput } from '@mantine/core';
-import { useClipboard } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Users } from 'tabler-icons-react';

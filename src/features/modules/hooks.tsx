@@ -20,6 +20,7 @@ export const useGetAllModulesQuery = () => {
   const mod = getAllModules();
   return useQuery(mod.key, mod.query, {
     enabled: true,
+    staleTime: 90 * 1000,
   });
 };
 
