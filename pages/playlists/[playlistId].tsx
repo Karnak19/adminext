@@ -9,19 +9,22 @@ import {
 } from '../../src/features/playlists';
 import { VideosList } from '../../src/features/videos';
 import { Video } from '../../src/features/videos/fetcher';
+import useEscapeKey from '../../src/hooks/useEscapeKey';
 
 const tabsMap: {
   [key: string]: string;
 } = {
-  display: 'display',
+  general: 'general',
   videos: 'videos',
 };
 function PlaylistId() {
   const router = useRouter();
-  const { data, isLoading } = useGetPlaylistByIdQuery();
+  const { data, isLoading, isRefetching } = useGetPlaylistByIdQuery();
+
+  useEscapeKey('/playlists');
+
   return (
     <PlaylistPageLayout>
-      <LoadingOverlay visible={isLoading} />
       {data && (
         <Tabs
           value={tabsMap[router.query.tabs as string]}
@@ -39,13 +42,24 @@ function PlaylistId() {
               </Tabs.Tab>
             ))}
           </Tabs.List>
-          <Tabs.Tab value="display">
-            <Edito {...data} />
-            <Display {...data} />
-          </Tabs.Tab>
-          <Tabs.Tab value="videos">
-            <VideosList videos={data.Videos as Video[]} />
-          </Tabs.Tab>
+
+          <div
+            style={{
+              width: '100%',
+              minHeight: '100vh',
+              height: '100%',
+              position: 'relative',
+            }}
+          >
+            <LoadingOverlay visible={isLoading || isRefetching} />
+            <Tabs.Panel value="general">
+              <Edito {...data} />
+              <Display {...data} />
+            </Tabs.Panel>
+            <Tabs.Panel value="videos">
+              <VideosList videos={data.Videos as Video[]} />
+            </Tabs.Panel>
+          </div>
         </Tabs>
       )}
     </PlaylistPageLayout>
