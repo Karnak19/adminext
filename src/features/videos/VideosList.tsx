@@ -84,10 +84,13 @@ function Item({ item, isRoot }: { item: TVideo; isRoot?: boolean }) {
   return (
     <tr
       style={{
-        cursor: 'pointer',
+        cursor: item.status === 'in_progress' ? 'not-allowed' : 'pointer',
       }}
       key={item.id}
-      onClick={() => router.push(`/videos/${item.id}?tabs=general`)}
+      onClick={() =>
+        item.status !== 'in_progress' &&
+        router.push(`/videos/${item.id}?tabs=${router.query.tabs || 'general'}`)
+      }
       className={isSelected(item.id) ? classes.root : undefined}
     >
       <td>

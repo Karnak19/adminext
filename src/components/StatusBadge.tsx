@@ -17,6 +17,9 @@ function StatusBadge({ status }: { status: string }) {
       case 'vendor':
         return 'violet';
 
+      case 'in_progress':
+        return 'yellow';
+
       default:
         return 'blue';
     }
