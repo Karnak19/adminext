@@ -30,6 +30,8 @@ RUN yarn build
 FROM node:16-alpine AS runner
 WORKDIR /app
 
+ARG NEXT_PUBLIC_API_GATEWAY_URL=${NEXT_PUBLIC_API_GATEWAY_URL}
+
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
