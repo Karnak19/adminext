@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { Avatar, Stack, Table, TextInput } from '@mantine/core';
+import { useInView } from 'react-intersection-observer';
+import { Avatar, ScrollArea, Stack, Table, TextInput } from '@mantine/core';
 import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Users } from 'tabler-icons-react';
@@ -7,17 +8,22 @@ import { Users } from 'tabler-icons-react';
 import StatusBadge from '../../components/StatusBadge';
 import TdClipboardId from '../../components/TdClipboardId';
 import { useSelected } from '../../hooks/useSelectedStyle';
+import { useStickyHeader } from '../../hooks/useStickyHeader';
 import { useGetFanByIdQuery, useGetFanProductsQuery, useGetFansQuery } from '.';
 import { Fan } from './fetcher';
 
 function FansList({ isRoot }: { isRoot?: boolean }) {
-  const { data = [] } = useGetFansQuery();
-
   const [search, setSearch] = useState('');
+
+  const { data, ref } = useGetFansQuery();
+
+  const fans = data?.pages.flatMap((p) => p.items) || [];
+
+  const { classes, cx, setScrolled, scrolled } = useStickyHeader();
 
   const fuse = useMemo(
     () =>
-      new Fuse(data || [], {
+      new Fuse(fans || [], {
         keys: ['email', 'username', 'id'],
         minMatchCharLength: 2,
       }),
@@ -32,7 +38,7 @@ function FansList({ isRoot }: { isRoot?: boolean }) {
     [fuse, search],
   );
 
-  const results = data?.map((item) => <Item key={item.id} item={item} isRoot={isRoot} />);
+  const results = fans?.map((item) => <Item key={item.id} item={item} isRoot={isRoot} />);
 
   return (
     <Stack>
@@ -45,24 +51,31 @@ function FansList({ isRoot }: { isRoot?: boolean }) {
           icon={<Users />}
         />
       </div>
-      <Table striped highlightOnHover>
-        <thead>
-          <tr>
-            <th>Avatar</th>
-            <th>Email</th>
-            {isRoot && (
-              <>
-                <th>Username</th>
-                <th>Status</th>
-                <th>Profiles</th>
-                <th>Products</th>
-              </>
-            )}
-            <th>Copy ID</th>
-          </tr>
-        </thead>
-        <tbody>{search ? fuzzyResults : results}</tbody>
-      </Table>
+      <ScrollArea sx={{ height: '80vh' }} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+        <Table striped highlightOnHover>
+          <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+            <tr>
+              <th>Avatar</th>
+              <th>Email</th>
+              {isRoot && (
+                <>
+                  <th>Username</th>
+                  <th>Status</th>
+                  <th>Profiles</th>
+                  <th>Products</th>
+                </>
+              )}
+              <th>Copy ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {search ? fuzzyResults : results}
+            <tr ref={ref}>
+              <td colSpan={7}>fetching more...</td>
+            </tr>
+          </tbody>
+        </Table>
+      </ScrollArea>
     </Stack>
   );
 }
@@ -73,8 +86,11 @@ function Item({ item, isRoot }: { isRoot?: boolean; item: Fan }) {
   const router = useRouter();
   const { classes, isSelected } = useSelected('fanId');
 
-  const { data } = useGetFanByIdQuery(item.id);
-  const { data: products } = useGetFanProductsQuery(item.id);
+  const { inView, ref } = useInView();
+  const { inView: productsInView, ref: productsRef } = useInView();
+
+  const { data } = useGetFanByIdQuery(item.id, inView);
+  const { data: products } = useGetFanProductsQuery(item.id, productsInView);
 
   return (
     <tr
@@ -95,8 +111,8 @@ function Item({ item, isRoot }: { isRoot?: boolean; item: Fan }) {
           <td>
             <StatusBadge status={item.status} />
           </td>
-          <td>{data?.Profiles.length}</td>
-          <td>{products?.items.length}</td>
+          <td ref={ref}>{data?.Profiles.length}</td>
+          <td ref={productsRef}>{products?.items.length}</td>
         </>
       )}
       <TdClipboardId id={item.id} />

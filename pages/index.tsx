@@ -71,7 +71,7 @@ export default function Home() {
       {
         title: 'Fans',
         icon: <Users color={color} />,
-        value: fans?.length || 0,
+        value: fans?.pages.flatMap((p) => p.items).length || 0,
         path: '/fans',
       },
       {

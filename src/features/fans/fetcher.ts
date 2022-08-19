@@ -80,14 +80,14 @@ export interface FanWithProfiles extends Fan {
 
 export const getFans = (accountKey: string | undefined) => ({
   key: ['fans', { accountKey }],
-  query: async () =>
-    betterFetch(`${USERS_SERVICE_URL}/fans`, {
+  query: async ({ pageParam = '' }) =>
+    betterFetch(`${USERS_SERVICE_URL}/fans?limit=20&after=${pageParam}`, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         'x-account-key': accountKey || '',
       },
-    }).then((response) => response.json() as Promise<Fan[]>),
+    }).then((response) => response.json() as Promise<{ items: Fan[]; cursor: { after: string } }>),
 });
 
 export const getFanById = (fanId: string, accountKey: string | undefined) => ({
