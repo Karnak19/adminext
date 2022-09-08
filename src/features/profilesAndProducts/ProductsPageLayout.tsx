@@ -1,7 +1,10 @@
 import React from 'react';
 import { Grid, LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { ShoppingCartPlus } from 'tabler-icons-react';
 
+import FormDrawer from '../../components/FormDrawer';
+import CreateProductForm from './CreateProductForm';
 import { useGetProductsQuery } from './hooks';
 import ProductsList from './ProductsList';
 
@@ -21,6 +24,7 @@ function ProductPageLayout({ children }: { children: React.ReactNode }) {
     >
       <LoadingOverlay visible={isLoading} />
       <Grid.Col span={isRoot ? 12 : 4}>
+        <FormDrawer icon={<ShoppingCartPlus />} form={<CreateProductForm />} />
         <ProductsList />
       </Grid.Col>
       <Grid.Col span={8}>{children}</Grid.Col>

@@ -43,6 +43,32 @@ export const mutateFanProfiles = (
     }).then((res) => res.json() as Promise<FanWithProfiles>),
 });
 
+export const mutateProduct = (accountKey: string | undefined, accountId: string | undefined) => ({
+  mutation: async (values: {
+    name: string;
+    description?: string;
+    paymentOffers?: string[];
+    profileIds?: string[];
+  }) =>
+    betterFetch(`${PAYMENT_SERVICE_URL}/back-office/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'x-account-key': accountKey || '',
+      },
+      body: JSON.stringify({
+        accountId: accountId,
+        name: values.name,
+        data: {
+          description: values.description,
+        },
+        paymentOffers: values.paymentOffers,
+        profileIds: values.profileIds,
+      }),
+    }).then((res) => res.json() as Promise<Products['items'][number]>),
+});
+
 export interface Profile {
   id: string;
   name: string;

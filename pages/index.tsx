@@ -40,7 +40,9 @@ const useStyles = createStyles((theme) => ({
 
 export default function Home() {
   const { data: categories, isLoading: isCatLoading } = useGetCategoriesQuery();
-  const { data: fans, isLoading: isFansLoading } = useGetFansQuery();
+  const {
+    list: { data: fans, isLoading: isFansLoading },
+  } = useGetFansQuery();
   const { data: videos, isLoading: isVideosLoading } = useGetVideosQuery();
   const { data: playlists, isLoading: isPlaylistsLoading } = useGetPlaylistsQuery();
   const { data: modules, isLoading: isModulesLoading } = useGetAccountModulesQuery();

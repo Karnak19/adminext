@@ -6,7 +6,9 @@ import { FansList, useGetFansQuery } from '.';
 
 function FanPageLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { isLoading } = useGetFansQuery();
+  const {
+    list: { isLoading },
+  } = useGetFansQuery();
 
   const isRoot = router.pathname === '/fans';
 
@@ -20,7 +22,7 @@ function FanPageLayout({ children }: { children: React.ReactNode }) {
     >
       <LoadingOverlay visible={isLoading} />
       <Grid.Col span={isRoot ? 12 : 4}>
-        <FansList isRoot={isRoot} />
+        <FansList />
       </Grid.Col>
       <Grid.Col span={8}>{children}</Grid.Col>
     </Grid>

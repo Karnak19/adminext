@@ -46,7 +46,7 @@ function PlaylistId() {
           <div
             style={{
               width: '100%',
-              minHeight: '100vh',
+              minHeight: '80vh',
               height: '100%',
               position: 'relative',
             }}

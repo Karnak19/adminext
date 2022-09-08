@@ -90,6 +90,18 @@ export const getFans = (accountKey: string | undefined) => ({
     }).then((response) => response.json() as Promise<{ items: Fan[]; cursor: { after: string } }>),
 });
 
+export const getFansByUsername = (accountKey: string | undefined, username: string) => ({
+  key: ['fans', { accountKey, username }],
+  query: async ({ pageParam = '' }) =>
+    betterFetch(`${USERS_SERVICE_URL}/fans?limit=20&after=${pageParam}&username=${username}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'x-account-key': accountKey || '',
+      },
+    }).then((response) => response.json() as Promise<{ items: Fan[]; cursor: { after: string } }>),
+});
+
 export const getFanById = (fanId: string, accountKey: string | undefined) => ({
   key: ['fans', { accountKey, fanId }],
   query: async () =>

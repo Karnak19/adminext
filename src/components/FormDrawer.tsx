@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Drawer, Grid } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { FilePlus } from 'tabler-icons-react';
 
 function FormDrawer({
@@ -12,6 +13,7 @@ function FormDrawer({
   buttonText?: string;
 }) {
   const [opened, setOpened] = useState(false);
+  const router = useRouter();
 
   return (
     <Grid.Col span={12}>
@@ -20,8 +22,9 @@ function FormDrawer({
       </Button>
       <Drawer
         opened={opened}
-        title="Create new video"
+        title={`Create new ${router.pathname.split('/')[1]} `}
         size="xl"
+        padding="xl"
         position="right"
         onClose={() => setOpened(false)}
       >

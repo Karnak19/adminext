@@ -1,22 +1,25 @@
 import React, { useMemo, useState } from 'react';
-import { Avatar, Stack, Table, TextInput } from '@mantine/core';
+import { Avatar, ScrollArea, Stack, Table, TextInput } from '@mantine/core';
 import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Playlist } from 'tabler-icons-react';
 
 import TdClipboardId from '../../components/TdClipboardId';
 import { useSelected } from '../../hooks/useSelectedStyle';
+import { useStickyHeader } from '../../hooks/useStickyHeader';
 import { useGetCategoryByIdQuery } from '../categories';
 import { useGetPlaylistsQuery } from '.';
 import { Playlist as TPlaylist } from './fetcher';
 
 function PlaylistsList({ playlists }: { playlists?: TPlaylist[] }) {
+  const [search, setSearch] = useState('');
+
   const { data = [] } = useGetPlaylistsQuery(!playlists);
   const router = useRouter();
 
-  const isRoot = router.pathname === '/playlists';
+  const { classes, cx, setScrolled, scrolled } = useStickyHeader();
 
-  const [search, setSearch] = useState('');
+  const isRoot = router.pathname === '/playlists';
 
   const fuse = useMemo(
     () =>
@@ -47,22 +50,24 @@ function PlaylistsList({ playlists }: { playlists?: TPlaylist[] }) {
           icon={<Playlist />}
         />
       </div>
-      <Table striped highlightOnHover>
-        <thead>
-          <tr>
-            <th>Thumbnail</th>
-            <th>Title</th>
-            {isRoot && (
-              <>
-                <th>Description</th>
-                <th>Category</th>
-              </>
-            )}
-            <th>Copy ID</th>
-          </tr>
-        </thead>
-        <tbody>{search ? fuzzyResults : results}</tbody>
-      </Table>
+      <ScrollArea sx={{ height: '80vh' }} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+        <Table striped highlightOnHover>
+          <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+            <tr>
+              <th>Thumbnail</th>
+              <th>Title</th>
+              {isRoot && (
+                <>
+                  <th>Description</th>
+                  <th>Category</th>
+                </>
+              )}
+              <th>Copy ID</th>
+            </tr>
+          </thead>
+          <tbody>{search ? fuzzyResults : results}</tbody>
+        </Table>
+      </ScrollArea>
     </Stack>
   );
 }

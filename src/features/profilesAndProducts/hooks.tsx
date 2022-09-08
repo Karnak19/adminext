@@ -3,7 +3,7 @@ import { showNotification } from '@mantine/notifications';
 import { CircleCheck } from 'tabler-icons-react';
 
 import { useStore } from '../../app/store';
-import { getProducts, getProfiles, mutateFanProfiles } from './fetcher';
+import { getProducts, getProfiles, mutateFanProfiles, mutateProduct } from './fetcher';
 
 export const useGetProfilesQuery = () => {
   const accountKey = useStore((state) => state.account?.key);
@@ -40,6 +40,18 @@ export const useMutateFanProfiles = () => {
         icon: <CircleCheck />,
         color: 'lime',
       });
+    },
+  });
+};
+
+export const useMutateProducts = () => {
+  const queryClient = useQueryClient();
+  const accountId = useStore((state) => state.account?.id);
+  const accountKey = useStore((state) => state.account?.key);
+
+  return useMutation(mutateProduct(accountKey, accountId).mutation, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('products');
     },
   });
 };

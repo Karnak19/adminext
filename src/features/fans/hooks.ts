@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQuery } from 'react-query';
+import { useDebouncedState } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 
 import { useStore } from '../../app/store';
-import { getFanById, getFanProducts, getFans } from './fetcher';
+import { getFanById, getFanProducts, getFans, getFansByUsername } from './fetcher';
 
 export const useGetFanByIdQuery = (id?: string, enabled?: boolean) => {
   const router = useRouter();
@@ -33,25 +34,35 @@ export const useGetFanProductsQuery = (id?: string, enabled?: boolean) => {
 };
 
 export const useGetFansQuery = () => {
+  const [searchState, setSearchState] = useDebouncedState('', 300);
   const accountKey = useStore((state) => state.account?.key);
 
   const { ref, inView } = useInView();
 
   const { key, query } = getFans(accountKey);
 
+  const { key: searchKey, query: searchQuery } = getFansByUsername(accountKey, searchState);
+
   const _query = useInfiniteQuery(key, query, {
-    enabled: !!accountKey,
+    enabled: !!accountKey && !searchState,
     getNextPageParam: (prevPage) => prevPage.cursor.after,
+  });
+
+  const _searchQuery = useInfiniteQuery(searchKey, searchQuery, {
+    enabled: !!searchState,
   });
 
   useEffect(() => {
     if (inView) {
       _query.fetchNextPage();
     }
-  }, [inView, _query.isFetchingNextPage]);
+  }, [inView]);
 
   return {
-    ..._query,
+    list: _query,
+    search: _searchQuery,
     ref,
+    searchState,
+    setSearchState,
   };
 };

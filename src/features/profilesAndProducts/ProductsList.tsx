@@ -1,18 +1,20 @@
 import React, { useMemo, useState } from 'react';
-import { Stack, Table, TextInput } from '@mantine/core';
+import { ScrollArea, Stack, Table, TextInput } from '@mantine/core';
 import Fuse from 'fuse.js';
 import { useRouter } from 'next/router';
 import { Users } from 'tabler-icons-react';
 
 import StatusBadge from '../../components/StatusBadge';
 import { useSelected } from '../../hooks/useSelectedStyle';
+import { useStickyHeader } from '../../hooks/useStickyHeader';
 import { useGetProductsQuery } from './hooks';
 import { Item } from './Products';
 
 function ProductsList() {
+  const [search, setSearch] = useState('');
   const { data } = useGetProductsQuery();
 
-  const [search, setSearch] = useState('');
+  const { classes, cx, setScrolled, scrolled } = useStickyHeader();
 
   const fuse = useMemo(
     () =>
@@ -44,17 +46,19 @@ function ProductsList() {
           icon={<Users />}
         />
       </div>
-      <Table striped highlightOnHover>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Payment offers</th>
-          </tr>
-        </thead>
-        <tbody>{search ? fuzzyResults : results}</tbody>
-      </Table>
+      <ScrollArea sx={{ height: '80vh' }} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+        <Table striped highlightOnHover>
+          <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+            <tr>
+              <th>Product</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Payment offers</th>
+            </tr>
+          </thead>
+          <tbody>{search ? fuzzyResults : results}</tbody>
+        </Table>
+      </ScrollArea>
     </Stack>
   );
 }
