@@ -89,7 +89,7 @@ function Layout({ children }: PropsWithChildren<{}>) {
 
   return (
     <AppShell
-      padding="md"
+      padding="sm"
       fixed
       style={{
         overflowX: 'hidden',
@@ -106,14 +106,15 @@ function Layout({ children }: PropsWithChildren<{}>) {
                   return true;
                 })
                 .map((page) => (
-                  <Link passHref href={page.path} key={page.path}>
-                    <Button
-                      variant={isRouteActive(page.path) ? 'filled' : 'subtle'}
-                      leftIcon={page.icon}
-                    >
-                      {page.name}
-                    </Button>
-                  </Link>
+                  <Button
+                    component={Link}
+                    href={page.path}
+                    key={page.path}
+                    variant={isRouteActive(page.path) ? 'filled' : 'subtle'}
+                    leftIcon={page.icon}
+                  >
+                    {page.name}
+                  </Button>
                 ))}
             </Stack>
           </Navbar.Section>
