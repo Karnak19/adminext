@@ -13,13 +13,7 @@ function FanPageLayout({ children }: { children: React.ReactNode }) {
   const isRoot = router.pathname === '/fans';
 
   return (
-    <Grid
-      style={{
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-      }}
-    >
+    <Grid columns={12}>
       <LoadingOverlay visible={isLoading} />
       <Grid.Col span={isRoot ? 12 : 4}>
         <FansList />

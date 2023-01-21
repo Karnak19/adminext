@@ -21,14 +21,14 @@ function FanProducts({ products }: { products: FanProduct[] }) {
         <tbody>
           {products.map((product) => (
             <tr key={product.productId}>
-              <td>{product.data.productName}</td>
+              <td>{product.data?.productName}</td>
               <td>{product.provider && <ProviderBadge provider={product.provider} />}</td>
               <td>
-                {product.data.subscription
-                  ? new Date(product.data.subscription.startDate * 1000).toLocaleDateString()
+                {product.data?.subscription
+                  ? new Date(product.data?.subscription.startDate * 1000).toLocaleDateString()
                   : ''}
               </td>
-              <td>{product.data.subscription ? 'Subscription' : ''}</td>
+              <td>{product.data?.subscription ? 'Subscription' : ''}</td>
               <td>
                 <StatusBadge status={product.status} />
               </td>

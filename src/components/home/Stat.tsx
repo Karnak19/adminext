@@ -1,4 +1,3 @@
-import React from 'react';
 import { createStyles, Group, Paper, Text } from '@mantine/core';
 import Link from 'next/link';
 
@@ -39,24 +38,30 @@ function Stat({
   const { classes } = useStyles();
 
   return (
-    <Link href={path}>
-      <Paper withBorder p="md" radius="md" key={title} className={classes.root}>
-        <Group position="apart">
-          <>
-            <Text size="xs" className={classes.title}>
-              {title}
-            </Text>
-            {icon}
-          </>
-        </Group>
-
-        <Group align="flex-end" spacing="xs" mt={25}>
-          <Text className={classes.value}>
-            {value} {title}
+    <Paper
+      component={Link}
+      href={path}
+      withBorder
+      p="md"
+      radius="md"
+      key={title}
+      className={classes.root}
+    >
+      <Group position="apart">
+        <Group>
+          <Text size="xs" className={classes.title}>
+            {title}
           </Text>
+          {icon}
         </Group>
-      </Paper>
-    </Link>
+      </Group>
+
+      <Group align="flex-end" spacing="xs" mt={25}>
+        <Text className={classes.value}>
+          {value} {title}
+        </Text>
+      </Group>
+    </Paper>
   );
 }
 
